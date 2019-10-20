@@ -16,6 +16,11 @@ namespace Data.Database
 
         public Database()
         {
+            Books = new List<tBook>();
+            Clients = new List<tClient>();
+            Suppliers = new List<tSupplier>();
+            Events = new List<tEvent>();
+
             // Adding initial books
             Books.Add(new tBook
             {

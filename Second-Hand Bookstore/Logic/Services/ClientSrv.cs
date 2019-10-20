@@ -9,7 +9,7 @@ using Logic.Interfaces;
 
 namespace Logic.Services
 {
-    class ClientSrv : IClientSrv
+    public class ClientSrv : IClientSrv
     {
         Database database;
 
