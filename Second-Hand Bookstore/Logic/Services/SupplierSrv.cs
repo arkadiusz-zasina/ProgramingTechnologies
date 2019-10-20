@@ -9,7 +9,7 @@ using Logic.Interfaces;
 
 namespace Logic.Services
 {
-    class SupplierSrv : ISupplierSrv
+    public class SupplierSrv : ISupplierSrv
     {
         Database database;
 
@@ -33,7 +33,7 @@ namespace Logic.Services
             return database.Suppliers.Single(x => x.Id == id);
         }
 
-        public IEnumerable<tSupplier> GetSupplierList()
+        public List<tSupplier> GetSupplierList()
         {
             return database.Suppliers;
         }

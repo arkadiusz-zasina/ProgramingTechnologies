@@ -23,7 +23,7 @@ namespace Logic.Services
         public void BuyBook(tBook book)
         {
             // to be implemented
-            var existingBook = database.Books.Single(x => x.Id == book.Id);
+            var existingBook = database.Books.SingleOrDefault(x => x.Id == book.Id);
             if (existingBook != null)
                 existingBook.Amount += book.Amount;
             else
@@ -81,8 +81,10 @@ namespace Logic.Services
 
         public void UpdateBook(tBook book)
         {
-            var tempbook = database.Books.Single(x => x.Id == book.Id);
-            tempbook = book;
+            DeleteBook(book.Id);
+            CreateBook(book);
+           // var tempbook = database.Books.Single(x => x.Id == book.Id);
+           // tempbook = book;
         }
     }
 }

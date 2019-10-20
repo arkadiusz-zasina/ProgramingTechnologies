@@ -24,12 +24,34 @@ namespace Tests
             }) ;
 
             Assert.AreEqual(clientSrv.GetClientList().Count - amountOfClientsAtTheBeggining, 1);
+
+            int currentAmount = clientSrv.GetClientList().Count;
+            clientSrv.DeleteClient(1);
+
+            Assert.AreEqual(currentAmount - clientSrv.GetClientList().Count, 1);
         }
 
         [TestMethod]
         public void SuppliersAddedAndDeletedTest()
         {
             Database db = new Database();
+
+            SupplierSrv supplierSrv = new SupplierSrv(db);
+            int amountOfSuppliersAtTheBeggining = supplierSrv.GetSupplierList().Count;
+            supplierSrv.CreateSupplier(new tSupplier
+            {
+                Id = 20,
+                Name = "Green Owl",
+                NIP = "1234567890",
+                CreationDate = DateTime.Now
+            });
+
+            Assert.AreEqual(supplierSrv.GetSupplierList().Count - amountOfSuppliersAtTheBeggining, 1);
+
+            int currentAmount = supplierSrv.GetSupplierList().Count;
+            supplierSrv.DeleteSupplier(20);
+
+            Assert.AreEqual(currentAmount - supplierSrv.GetSupplierList().Count, 1);
 
         }
 

@@ -13,6 +13,6 @@ namespace Logic.Interfaces
         tSupplier GetSupplier(int id);
         void UpdateSupplier(tSupplier supplier);
         void DeleteSupplier(int id);
-        IEnumerable<tSupplier> GetSupplierList();
+        List<tSupplier> GetSupplierList();
     }
 }
