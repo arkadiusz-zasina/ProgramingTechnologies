@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Data.Database;
 using Data.DataModels;
 using Logic.Interfaces;
 
@@ -10,29 +11,37 @@ namespace Logic.Services
 {
     class ClientSrv : IClientSrv
     {
+        Database database;
+
+        public ClientSrv(Database database)
+        {
+            this.database = database;
+        }
+
         public void CreateClient(tClient client)
         {
-            Database.Books.Add(client);
+            database.Clients.Add(client);
         }
 
         public void DeleteClient(int id)
         {
-            Database.Books.RemoveAll(x => x.Id == id);
+            database.Clients.RemoveAll(x => x.Id == id);
         }
 
         public tClient GetClient(int id)
         {
-            throw new NotImplementedException();
+            return database.Clients.Single(x => x.Id == id);
         }
 
         public IEnumerable<tClient> GetClientList()
         {
-            throw new NotImplementedException();
+            return database.Clients;
         }
 
         public void UpdateClient(tClient client)
         {
-            throw new NotImplementedException();
+            var tempclient = database.Clients.Single(x => x.Id == client.Id) ;
+            tempclient = client;
         }
     }
 }
