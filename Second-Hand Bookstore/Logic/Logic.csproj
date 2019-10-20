@@ -35,13 +35,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="Interfaces\IBookSrv.cs" />
     <Compile Include="Interfaces\IClientSrv.cs" />
     <Compile Include="Interfaces\ISupplierSrv.cs" />
+    <Compile Include="Services\BookSrv.cs" />
+    <Compile Include="Services\ClientSrv.cs" />
+    <Compile Include="Services\SupplierSrv.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">
