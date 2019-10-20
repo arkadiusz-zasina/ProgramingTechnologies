@@ -9,9 +9,9 @@ namespace Data.Database
 {
     public class Database
     {
-        List<tBook> Books { get; set; }
-        List<tClient> Clients { get; set; }
-        List<tSupplier> Suppliers { get; set; }
+        public List<tBook> Books { get; set; }
+        public List<tClient> Clients { get; set; }
+        public List<tSupplier> Suppliers { get; set; }
 
         public Database()
         {
