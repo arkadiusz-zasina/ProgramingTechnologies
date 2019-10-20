@@ -33,7 +33,7 @@ namespace Logic.Services
             return database.Clients.Single(x => x.Id == id);
         }
 
-        public IEnumerable<tClient> GetClientList()
+        public List<tClient> GetClientList()
         {
             return database.Clients;
         }
