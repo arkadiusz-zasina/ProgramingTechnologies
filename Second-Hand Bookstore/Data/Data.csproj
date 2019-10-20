@@ -36,6 +36,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\Database.cs" />
     <Compile Include="DataModels\tBook.cs" />
     <Compile Include="DataModels\tClient.cs" />
     <Compile Include="DataModels\tSupplier.cs" />
