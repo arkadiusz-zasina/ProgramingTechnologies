@@ -16,6 +16,7 @@ namespace Data.Database
 
         public Database()
         {
+            // Adding initial books
             Books.Add(new tBook
             {
                 Id = 0,
@@ -56,6 +57,8 @@ namespace Data.Database
                 Price = 35.99f,
                 SupplierId = 1,
             });
+
+            // Adding initial Suppliers
             Suppliers.Add(new tSupplier
             {
                 Id = 0,
@@ -70,6 +73,8 @@ namespace Data.Database
                 NIP = "8295829592",
                 CreationDate = new DateTime(2019, 2, 5)
             });
+
+            // Adding initial Client
             Clients.Add(new tClient
             {
                 Id = 0,
@@ -77,9 +82,11 @@ namespace Data.Database
                 Surname = "Kowalski",
                 CreationDate = new DateTime(2018, 12, 12)
             });
+
+            // Adding initial Event with initial account balance
             Events.Add(new tEvent
             {
-                AccountBalance = 10000,
+                AccountBalance = 10000.0f,
                 BookId = -1,
                 EventTime = DateTime.Now,
                 Id = 0
