@@ -13,7 +13,17 @@ namespace Tests
         public void ClientsAddedAndDeletedTest()
         {
             Database db = new Database();
-            
+            ClientSrv clientSrv = new ClientSrv(db);
+            int amountOfClientsAtTheBeggining = clientSrv.GetClientList().Count;
+            clientSrv.CreateClient(new tClient
+            {
+                Id = 1,
+                Name = "John",
+                Surname = "Smith",
+                CreationDate = DateTime.Now
+            }) ;
+
+            Assert.AreEqual(clientSrv.GetClientList().Count - amountOfClientsAtTheBeggining, 1);
         }
 
         [TestMethod]

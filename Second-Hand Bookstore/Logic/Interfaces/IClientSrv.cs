@@ -13,7 +13,7 @@ namespace Logic.Interfaces
         tClient GetClient(int id);
         void UpdateClient(tClient client);
         void DeleteClient(int id);
-        IEnumerable<tClient> GetClientList();
+        List<tClient> GetClientList();
 
     }
 }
