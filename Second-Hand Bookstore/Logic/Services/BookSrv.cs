@@ -9,7 +9,7 @@ using Logic.Interfaces;
 
 namespace Logic.Services
 {
-    class BookSrv : IBookSrv
+    public class BookSrv : IBookSrv
     {
         Database database;
         IEventSrv _eventSrv;
@@ -55,7 +55,7 @@ namespace Logic.Services
             return database.Books.Single(x => x.Id == id);
         }
 
-        public IEnumerable<tBook> GetBookList()
+        public List<tBook> GetBookList()
         {
             return database.Books;
         }

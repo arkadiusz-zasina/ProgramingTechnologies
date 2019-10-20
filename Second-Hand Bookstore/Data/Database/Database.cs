@@ -77,6 +77,13 @@ namespace Data.Database
                 Surname = "Kowalski",
                 CreationDate = new DateTime(2018, 12, 12)
             });
+            Events.Add(new tEvent
+            {
+                AccountBalance = 10000,
+                BookId = -1,
+                EventTime = DateTime.Now,
+                Id = 0
+            });
 
         }
     }

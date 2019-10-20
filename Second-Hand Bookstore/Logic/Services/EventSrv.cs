@@ -9,7 +9,7 @@ using Logic.Interfaces;
 
 namespace Logic.Services
 {
-    class EventSrv : IEventSrv
+    public class EventSrv : IEventSrv
     {
         Database database;
 

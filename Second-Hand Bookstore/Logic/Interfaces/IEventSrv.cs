@@ -7,7 +7,7 @@ using Data.DataModels;
 
 namespace Logic.Interfaces
 {
-    interface IEventSrv
+    public interface IEventSrv
     {
         void RegisterEvent(tEvent _event);
         List<tEvent> GetListOfEvents();
