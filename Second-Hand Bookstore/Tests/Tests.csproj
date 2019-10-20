@@ -57,11 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">
-      <Project>{82ECC5BD-A0BD-48A8-B412-C57D352D306C}</Project>
+      <Project>{82ecc5bd-a0bd-48a8-b412-c57d352d306c}</Project>
       <Name>Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logic\Logic.csproj">
-      <Project>{45558FD8-09C4-49DA-96FE-F5628687225D}</Project>
+      <Project>{45558fd8-09c4-49da-96fe-f5628687225d}</Project>
       <Name>Logic</Name>
     </ProjectReference>
   </ItemGroup>
