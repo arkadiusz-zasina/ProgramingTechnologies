@@ -38,8 +38,14 @@
   <ItemGroup>
     <Compile Include="Database\Database.cs" />
     <Compile Include="DataModels\tBook.cs" />
+    <Compile Include="DataModels\tBookBoughtEvent.cs" />
+    <Compile Include="DataModels\tBookSoldEvent.cs" />
     <Compile Include="DataModels\tClient.cs" />
+    <Compile Include="DataModels\tEvent.cs" />
     <Compile Include="DataModels\tSupplier.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dictionaries\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

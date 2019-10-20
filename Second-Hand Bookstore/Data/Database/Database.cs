@@ -12,6 +12,7 @@ namespace Data.Database
         public List<tBook> Books { get; set; }
         public List<tClient> Clients { get; set; }
         public List<tSupplier> Suppliers { get; set; }
+        public List<tEvent> Events { get; set; }
 
         public Database()
         {
