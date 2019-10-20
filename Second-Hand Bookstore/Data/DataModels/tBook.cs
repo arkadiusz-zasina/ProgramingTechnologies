@@ -14,7 +14,6 @@ namespace Data.DataModels
         public float Price { get; set; }
         public int Amount { get; set; }
         public Boolean isNew { get; set; }
-        public tSupplier Supplier { get; set; }
-        public tClient SoldTo { get; set; }
+        public int SupplierId { get; set; }
     }
 }

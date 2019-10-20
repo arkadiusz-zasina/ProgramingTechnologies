@@ -10,9 +10,7 @@ namespace Data.DataModels
     {
         public int Id { get; set; }
         public String Name { get; set; }
-        public String Surname { get; set; }
         public String NIP { get; set; }
-        public String KRS { get; set; }
         public DateTime CreationDate { get; set; }
     }
 }
