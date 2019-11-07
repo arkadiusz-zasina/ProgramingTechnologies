@@ -33,7 +33,7 @@ namespace Logic.Services
 
         public tBook GetBook(int id)
         {
-            return datacontext.Books.Single(x => x.Id == id);
+            return datacontext.Books.SingleOrDefault(x => x.Id == id);
         }
 
         public List<tBook> GetBookList()

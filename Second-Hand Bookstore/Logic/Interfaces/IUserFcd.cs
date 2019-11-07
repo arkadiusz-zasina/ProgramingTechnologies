@@ -11,7 +11,7 @@ namespace Logic.Interfaces
     {
         void GenerateShopRaport();
         void SellBook(int bookId, int clientId);
-        void BuyBook(tBook book, int amount);
+        void BuyBook(tBook book);
         void ShowBooksOfSupplier(string supplierName);
         void ShowAvailibleBooks();
     }

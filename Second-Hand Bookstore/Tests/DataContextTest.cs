@@ -3,6 +3,7 @@ using Data.DataContext;
 using Logic.Services;
 using Data.DataModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Logic.Facades;
 
 namespace Tests
 {
@@ -101,7 +102,10 @@ namespace Tests
 
             Assert.AreEqual(24.00f, bookSrv.GetBook(4).Price);
 
-            bookSrv.BuyBook(new tBook
+
+
+
+            /*bookSrv.BuyBook(new tBook
             {
                 Amount = 5,
                 Author = "Henryk Sienkiewicz",
@@ -115,7 +119,50 @@ namespace Tests
             Assert.AreEqual(5, bookSrv.GetBookList().Count);
             Assert.AreEqual(2, eventSrv.GetListOfEvents().Count);
             Assert.AreEqual(9920.0f, eventSrv.GetAccountBalance());
+*/
+        }
+        [TestMethod]
+        public void TestOfFacade()
+        {
+            tSupplier supplier = new tSupplier
+            {
+                Id = 10,
+                CreationDate = DateTime.Now,
+                Name = "New Delivery Company",
+                NIP = "18234323"
+            };
+            tBook book = new tBook
+            {
+                Id = 20,
+                Name = "Tożsamość Bourne'a",
+                Author = "Robert Ludlum",
+                Amount = 50,
+                isNew = true,
+                Price = 30.99f,
+                Supplier = supplier
+            };
 
+            
+
+            DataContext dataContext = new DataContext();
+            ClientSrv clientSrv = new ClientSrv(dataContext);
+            SupplierSrv supplierSrv = new SupplierSrv(dataContext);
+            EventSrv eventSrv = new EventSrv(dataContext);
+            BookSrv bookSrv = new BookSrv(dataContext, eventSrv, clientSrv);
+
+            UserFcd userFcd = new UserFcd(bookSrv, clientSrv, eventSrv, supplierSrv);
+
+            int titlesBeforePurchase = bookSrv.GetBookList().Count;
+            float accountBalanceBeforePurchase = eventSrv.GetAccountBalance();
+            userFcd.BuyBook(book);
+            Assert.AreEqual(bookSrv.GetBookList().Count - titlesBeforePurchase, 1);
+            Assert.AreEqual(accountBalanceBeforePurchase - eventSrv.GetAccountBalance() , book.Price * book.Amount);
+
+            int AmountOfBooksPurchase = bookSrv.GetBook(0).Amount;
+            float accountBalanceBeforeSelling = eventSrv.GetAccountBalance();
+            userFcd.SellBook(0, 0);
+            Assert.AreEqual(AmountOfBooksPurchase - bookSrv.GetBook(0).Amount, 1);
+            Assert.AreEqual(eventSrv.GetAccountBalance() - accountBalanceBeforeSelling, bookSrv.GetBook(0).Price, 0.01);
         }
     }
 }

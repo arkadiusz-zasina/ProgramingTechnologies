@@ -19,15 +19,16 @@ namespace Logic.Facades
             _supplierSrv = supplierSrv;
         }
 
-        public void BuyBook(tBook book, int amount)
+        public void BuyBook(tBook book)
         {
-            var isBought = _bookSrv.GetBook(book.Id) != null;
+            var bookInDatabase = _bookSrv.GetBook(book.Id);
+            var isBought = bookInDatabase != null;
 
             if (isBought)
             {
                 _bookSrv.UpdateBook(new tBook
                 {
-                    Amount = book.Amount + amount,
+                    Amount = bookInDatabase.Amount + book.Amount,
                     Author = book.Author,
                     Id = book.Id,
                     isNew = book.isNew,
@@ -40,7 +41,7 @@ namespace Logic.Facades
             {
                 _bookSrv.CreateBook(new tBook
                 {
-                    Amount = amount,
+                    Amount = book.Amount,
                     Author = book.Author,
                     Id = book.Id,
                     isNew = book.isNew,
@@ -53,7 +54,7 @@ namespace Logic.Facades
             _eventSrv.RegisterEvent(new tBookBoughtEvent
             {
                 EventTime = DateTime.Now,
-                AccountBalance = _eventSrv.GetAccountBalance() - (book.Price * amount),
+                AccountBalance = _eventSrv.GetAccountBalance() - (book.Price * book.Amount),
                 Book = book,
                 Id = _eventSrv.GetLastId() + 1,
                 Supplier = book.Supplier
