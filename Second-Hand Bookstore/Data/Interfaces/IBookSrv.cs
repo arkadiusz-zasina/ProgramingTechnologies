@@ -14,7 +14,6 @@ namespace Logic.Interfaces
         void UpdateBook(tBook book);
         void DeleteBook(int id);
         List<tBook> GetBookList();
-        void SellBook(int bookId, int clientId);
-        void BuyBook(tBook book);
+        List<tBook> GetBooksBySupplier(string supplierName);
     }
 }

@@ -21,26 +21,6 @@ namespace Logic.Services
             this._clientSrv = _clientSrv;
         }
 
-        public void BuyBook(tBook book)
-        {
-            // to be implemented
-            var existingBook = datacontext.Books.SingleOrDefault(x => x.Id == book.Id);
-            if (existingBook != null)
-                existingBook.Amount += book.Amount;
-            else
-                datacontext.Books.Add(book);
-            //pay for book
-            //register event
-            _eventSrv.RegisterEvent(new tBookBoughtEvent
-            {
-                EventTime = DateTime.Now,
-                AccountBalance = _eventSrv.GetAccountBalance() - book.Price,
-                Book = book,
-                Id = _eventSrv.GetLastId() + 1,
-                Supplier = book.Supplier
-            }) ;
-        }
-
         public void CreateBook(tBook book)
         {
             datacontext.Books.Add(book);
@@ -61,13 +41,16 @@ namespace Logic.Services
             return datacontext.Books;
         }
 
+        public List<tBook> GetBooksBySupplier(string supplierName)
+        {
+            return datacontext.Books.Where(x => x.Supplier.Name == supplierName).ToList();
+        }
+
+        // to fcd
         public void SellBook(int bookId, int clientId)
         {
-            // to be implemented
             var bookToBeSold = datacontext.Books.Single(x => x.Id == bookId);
             if (bookToBeSold.Amount > 1) bookToBeSold.Amount--;
-            //pay for book!!
-            //event
 
             _eventSrv.RegisterEvent(new tBookSoldEvent
             {

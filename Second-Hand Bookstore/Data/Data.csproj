@@ -46,6 +46,14 @@
     <Compile Include="DataModels\tClient.cs" />
     <Compile Include="DataModels\tEvent.cs" />
     <Compile Include="DataModels\tSupplier.cs" />
+    <Compile Include="Interfaces\IBookSrv.cs" />
+    <Compile Include="Interfaces\IClientSrv.cs" />
+    <Compile Include="Interfaces\IEventSrv.cs" />
+    <Compile Include="Interfaces\ISupplierSrv.cs" />
+    <Compile Include="Services\BookSrv.cs" />
+    <Compile Include="Services\ClientSrv.cs" />
+    <Compile Include="Services\EventSrv.cs" />
+    <Compile Include="Services\SupplierSrv.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dictionaries\" />

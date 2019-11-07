@@ -44,15 +44,10 @@
       <Name>Data</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Compile Include="Interfaces\IBookSrv.cs" />
-    <Compile Include="Interfaces\IClientSrv.cs" />
-    <Compile Include="Interfaces\IEventSrv.cs" />
-    <Compile Include="Interfaces\ISupplierSrv.cs" />
-    <Compile Include="Services\BookSrv.cs" />
-    <Compile Include="Services\ClientSrv.cs" />
-    <Compile Include="Services\EventSrv.cs" />
-    <Compile Include="Services\SupplierSrv.cs" />
+    <Compile Include="Facades\UserFcd.cs" />
+    <Compile Include="Interfaces\IUserFcd.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
