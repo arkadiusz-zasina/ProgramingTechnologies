@@ -8,6 +8,6 @@ namespace Data.DataModels
 {
     public class tBookSoldEvent : tEvent
     {
-        public int ClientId { get; set; }
+        public tClient Client { get; set; }
     }
 }

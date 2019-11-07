@@ -8,6 +8,6 @@ namespace Data.DataModels
 {
     public class tBookBoughtEvent : tEvent
     {
-        public int SupplierId { get; set; }
+        public tSupplier Supplier { get; set; }
     }
 }

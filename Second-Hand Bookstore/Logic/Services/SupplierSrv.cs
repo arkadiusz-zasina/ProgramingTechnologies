@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Data.Database;
+using Data.DataContext;
 using Data.DataModels;
 using Logic.Interfaces;
 
@@ -11,36 +11,36 @@ namespace Logic.Services
 {
     public class SupplierSrv : ISupplierSrv
     {
-        Database database;
+        private DataContext datacontext;
 
-        public SupplierSrv(Database database)
+        public SupplierSrv(DataContext datacontext)
         {
-            this.database = database;
+            this.datacontext = datacontext;
         }
 
         public void CreateSupplier(tSupplier supplier)
         {
-            database.Suppliers.Add(supplier);
+            datacontext.Suppliers.Add(supplier);
         }
 
         public void DeleteSupplier(int id)
         {
-            database.Suppliers.RemoveAll(x => x.Id == id);
+            datacontext.Suppliers.RemoveAll(x => x.Id == id);
         }
 
         public tSupplier GetSupplier(int id)
         {
-            return database.Suppliers.Single(x => x.Id == id);
+            return datacontext.Suppliers.Single(x => x.Id == id);
         }
 
         public List<tSupplier> GetSupplierList()
         {
-            return database.Suppliers;
+            return datacontext.Suppliers;
         }
 
         public void UpdateSupplier(tSupplier supplier)
         {
-            var tempsupplier = database.Suppliers.Single(x => x.Id == supplier.Id);
+            var tempsupplier = datacontext.Suppliers.Single(x => x.Id == supplier.Id);
             tempsupplier = supplier;
         }
     }

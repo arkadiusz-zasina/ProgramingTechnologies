@@ -1,5 +1,5 @@
 ﻿using System;
-using Data.Database;
+using Data.DataContext;
 using Logic.Services;
 using Data.DataModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -7,12 +7,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Tests
 {
     [TestClass]
-    public class DatabaseTest
+    public class DataContextTest
     {
         [TestMethod]
         public void ClientsAddedAndDeletedTest()
         {
-            Database db = new Database();
+            DataContext db = new DataContext();
             ClientSrv clientSrv = new ClientSrv(db);
             int amountOfClientsAtTheBeggining = clientSrv.GetClientList().Count;
             clientSrv.CreateClient(new tClient
@@ -34,7 +34,7 @@ namespace Tests
         [TestMethod]
         public void SuppliersAddedAndDeletedTest()
         {
-            Database db = new Database();
+            DataContext db = new DataContext();
 
             SupplierSrv supplierSrv = new SupplierSrv(db);
             int amountOfSuppliersAtTheBeggining = supplierSrv.GetSupplierList().Count;
@@ -58,10 +58,17 @@ namespace Tests
         [TestMethod]
         public void BooksBoughtAndSoldTest()
         {
-            Database db = new Database();
+            DataContext db = new DataContext();
             EventSrv eventSrv = new EventSrv(db);
-            BookSrv bookSrv = new BookSrv(db, eventSrv);
-
+            ClientSrv clientSrv = new ClientSrv(db);
+            BookSrv bookSrv = new BookSrv(db, eventSrv, clientSrv);
+            tSupplier testSupplier = new tSupplier
+            {
+                CreationDate = DateTime.Now,
+                Id = 2,
+                Name = "Nowa Era",
+                NIP = "12345678"
+            };
             Assert.AreEqual(4, bookSrv.GetBookList().Count);
 
             bookSrv.CreateBook(new tBook
@@ -72,7 +79,7 @@ namespace Tests
                 isNew = false,
                 Name = "The Shining",
                 Price = 20.00f,
-                SupplierId = 1
+                Supplier = testSupplier
             });
 
             Assert.AreEqual(5, bookSrv.GetBookList().Count);
@@ -89,7 +96,7 @@ namespace Tests
                 isNew = false,
                 Name = "The Shining",
                 Price = 24.00f,
-                SupplierId = 1
+                Supplier = testSupplier
             });
 
             Assert.AreEqual(24.00f, bookSrv.GetBook(4).Price);
@@ -102,7 +109,7 @@ namespace Tests
                 Id = 5,
                 isNew = true,
                 Price = 80.00f,
-                SupplierId = 1
+                Supplier = testSupplier
             });
 
             Assert.AreEqual(5, bookSrv.GetBookList().Count);

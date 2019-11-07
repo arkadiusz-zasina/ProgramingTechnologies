@@ -5,63 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Database
+namespace Data.DataContext
 {
-    public class Database
+    public class DataContext
     {
         public List<tBook> Books { get; set; }
         public List<tClient> Clients { get; set; }
         public List<tSupplier> Suppliers { get; set; }
         public List<tEvent> Events { get; set; }
 
-        public Database()
+        public DataContext()
         {
             Books = new List<tBook>();
             Clients = new List<tClient>();
             Suppliers = new List<tSupplier>();
             Events = new List<tEvent>();
-
-            // Adding initial books
-            Books.Add(new tBook
-            {
-                Id = 0,
-                Name = "Harry Potter",
-                Author = "J. K. Rowling",
-                Amount = 55,
-                isNew = true,
-                Price = 39.99f,
-                SupplierId = 0,
-            });
-            Books.Add(new tBook
-            {
-                Id = 1,
-                Name = "50 Shades of Gray",
-                Author = "E. L. James",
-                Amount = 43,
-                isNew = true,
-                Price = 15.0f,
-                SupplierId = 0,
-            });
-            Books.Add(new tBook
-            {
-                Id = 2,
-                Name = "Harry Potter",
-                Author = "J. K. Rowling",
-                Amount = 12,
-                isNew = false,
-                Price = 19.99f,
-                SupplierId = 0,
-            });
-            Books.Add(new tBook
-            {
-                Id = 3,
-                Name = "Lord of the Rings",
-                Author = "J. R. R. Tolkien",
-                Amount = 92,
-                isNew = true,
-                Price = 35.99f,
-                SupplierId = 1,
-            });
 
             // Adding initial Suppliers
             Suppliers.Add(new tSupplier
@@ -79,6 +37,50 @@ namespace Data.Database
                 CreationDate = new DateTime(2019, 2, 5)
             });
 
+
+            // Adding initial books
+
+            Books.Add(new tBook
+            {
+                Id = 0,
+                Name = "Harry Potter",
+                Author = "J. K. Rowling",
+                Amount = 55,
+                isNew = true,
+                Price = 39.99f,
+                Supplier = Suppliers.Single(x => x.Id == 0)
+            });
+            Books.Add(new tBook
+            {
+                Id = 1,
+                Name = "50 Shades of Gray",
+                Author = "E. L. James",
+                Amount = 43,
+                isNew = true,
+                Price = 15.0f,
+                Supplier = Suppliers.Single(x => x.Id == 1),
+            });
+            Books.Add(new tBook
+            {
+                Id = 2,
+                Name = "Harry Potter",
+                Author = "J. K. Rowling",
+                Amount = 12,
+                isNew = false,
+                Price = 19.99f,
+                Supplier = Suppliers.Single(x => x.Id == 1),
+            });
+            Books.Add(new tBook
+            {
+                Id = 3,
+                Name = "Lord of the Rings",
+                Author = "J. R. R. Tolkien",
+                Amount = 92,
+                isNew = true,
+                Price = 35.99f,
+                Supplier = Suppliers.Single(x => x.Id == 0),
+            });
+
             // Adding initial Client
             Clients.Add(new tClient
             {
@@ -92,7 +94,7 @@ namespace Data.Database
             Events.Add(new tEvent
             {
                 AccountBalance = 10000.0f,
-                BookId = -1,
+                Book = null,
                 EventTime = DateTime.Now,
                 Id = 0
             });

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Data.Database;
+using Data.DataContext;
 using Data.DataModels;
 using Logic.Interfaces;
 
@@ -11,36 +11,36 @@ namespace Logic.Services
 {
     public class ClientSrv : IClientSrv
     {
-        Database database;
+        private DataContext datacontext;
 
-        public ClientSrv(Database database)
+        public ClientSrv(DataContext database)
         {
-            this.database = database;
+            this.datacontext = database;
         }
 
         public void CreateClient(tClient client)
         {
-            database.Clients.Add(client);
+            datacontext.Clients.Add(client);
         }
 
         public void DeleteClient(int id)
         {
-            database.Clients.RemoveAll(x => x.Id == id);
+            datacontext.Clients.RemoveAll(x => x.Id == id);
         }
 
         public tClient GetClient(int id)
         {
-            return database.Clients.Single(x => x.Id == id);
+            return datacontext.Clients.Single(x => x.Id == id);
         }
 
         public List<tClient> GetClientList()
         {
-            return database.Clients;
+            return datacontext.Clients;
         }
 
         public void UpdateClient(tClient client)
         {
-            var tempclient = database.Clients.Single(x => x.Id == client.Id) ;
+            var tempclient = datacontext.Clients.Single(x => x.Id == client.Id) ;
             tempclient = client;
         }
     }

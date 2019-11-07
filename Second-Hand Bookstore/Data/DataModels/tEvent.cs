@@ -11,6 +11,6 @@ namespace Data.DataModels
         public int Id { get; set; }
         public float AccountBalance { get; set; }
         public DateTime EventTime { get; set; }
-        public int BookId { get; set; }
+        public tBook Book { get; set; }
     }
 }

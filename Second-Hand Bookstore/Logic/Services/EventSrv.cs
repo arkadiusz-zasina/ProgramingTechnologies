@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Data.Database;
+using Data.DataContext;
 using Data.DataModels;
 using Logic.Interfaces;
 
@@ -11,31 +11,31 @@ namespace Logic.Services
 {
     public class EventSrv : IEventSrv
     {
-        Database database;
+        private DataContext datacontext;
 
-        public EventSrv(Database database)
+        public EventSrv(DataContext datacontext)
         {
-            this.database = database;
+            this.datacontext = datacontext;
         }
 
         public float GetAccountBalance()
         {
-            return database.Events.Last().AccountBalance;
+            return datacontext.Events.Last().AccountBalance;
         }
 
         public int GetLastId()
         {
-            return database.Events.Last().Id;
+            return datacontext.Events.Last().Id;
         }
 
         public List<tEvent> GetListOfEvents()
         {
-            return database.Events;
+            return datacontext.Events;
         }
 
         public void RegisterEvent(tEvent _event)
         {
-            database.Events.Add(_event);
+            datacontext.Events.Add(_event);
         }
     }
 }
