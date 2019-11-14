@@ -5,16 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Data.DataContext;
 using Data.DataModels;
-using Logic.Interfaces;
+using Data.Interfaces;
 
-namespace Logic.Services
+namespace Data.Services
 {
     public class BookSrv : IBookSrv
     {
-        private DataContext datacontext;
+        private Data.DataContext.DataContext datacontext;
         IEventSrv _eventSrv;
         IClientSrv _clientSrv;
-        public BookSrv(DataContext datacontext, IEventSrv _eventSrv, IClientSrv _clientSrv)
+        public BookSrv(Data.DataContext.DataContext datacontext, IEventSrv _eventSrv, IClientSrv _clientSrv)
         {
             this.datacontext = datacontext;
             this._eventSrv = _eventSrv;
@@ -51,8 +51,8 @@ namespace Logic.Services
         {
             DeleteBook(book.Id);
             CreateBook(book);
-           // var tempbook = database.Books.Single(x => x.Id == book.Id);
-           // tempbook = book;
+            // var tempbook = database.Books.Single(x => x.Id == book.Id);
+            // tempbook = book;
         }
     }
 }

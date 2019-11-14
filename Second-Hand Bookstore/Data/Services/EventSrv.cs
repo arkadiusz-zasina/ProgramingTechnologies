@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Data.DataContext;
 using Data.DataModels;
-using Logic.Interfaces;
+using Data.Interfaces;
 
-namespace Logic.Services
+namespace Data.Services
 {
     public class EventSrv : IEventSrv
     {
-        private DataContext datacontext;
+        private Data.DataContext.DataContext datacontext;
 
-        public EventSrv(DataContext datacontext)
+        public EventSrv(Data.DataContext.DataContext datacontext)
         {
             this.datacontext = datacontext;
         }

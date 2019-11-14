@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Data.DataContext;
 using Data.DataModels;
-using Logic.Interfaces;
+using Data.Interfaces;
 
-namespace Logic.Services
+namespace Data.Services
 {
     public class SupplierSrv : ISupplierSrv
     {
-        private DataContext datacontext;
+        private Data.DataContext.DataContext datacontext;
 
-        public SupplierSrv(DataContext datacontext)
+        public SupplierSrv(Data.DataContext.DataContext datacontext)
         {
             this.datacontext = datacontext;
         }

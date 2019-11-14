@@ -5,17 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Data.DataContext;
 using Data.DataModels;
-using Logic.Interfaces;
+using Data.Interfaces;
 
-namespace Logic.Services
+namespace Data.Services
 {
     public class ClientSrv : IClientSrv
     {
-        private DataContext datacontext;
+        private Data.DataContext.DataContext datacontext;
 
-        public ClientSrv(DataContext database)
+        public ClientSrv(Data.DataContext.DataContext database)
         {
-            this.datacontext = database;
+            datacontext = database;
         }
 
         public void CreateClient(tClient client)
@@ -40,7 +40,7 @@ namespace Logic.Services
 
         public void UpdateClient(tClient client)
         {
-            var tempclient = datacontext.Clients.Single(x => x.Id == client.Id) ;
+            var tempclient = datacontext.Clients.Single(x => x.Id == client.Id);
             tempclient = client;
         }
     }

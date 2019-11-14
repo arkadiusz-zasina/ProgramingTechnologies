@@ -1,9 +1,9 @@
 ﻿using System;
 using Data.DataContext;
-using Logic.Services;
 using Data.DataModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Logic.Facades;
+using Data.Services;
 
 namespace Tests
 {
@@ -16,6 +16,7 @@ namespace Tests
         EventSrv eventSrv;
         SupplierSrv supplierSrv;
         UserFcd userFcd;
+        FileSrv fileSrv;
 
         [TestInitialize]
         public void InitializeDataContext()
@@ -25,23 +26,23 @@ namespace Tests
             clientSrv = new ClientSrv(db);
             bookSrv = new BookSrv(db, eventSrv, clientSrv);
             supplierSrv = new SupplierSrv(db);
+            fileSrv = new FileSrv(bookSrv);
 
             userFcd = new UserFcd(bookSrv, clientSrv, eventSrv, supplierSrv);
+
 
             // Adding initial Suppliers
             supplierSrv.CreateSupplier(new tSupplier
             {
                 Id = 0,
                 Name = "Empik",
-                NIP = "9406723512",
-                CreationDate = new DateTime(2019, 5, 10)
+                NIP = "9406723512"
             });
             supplierSrv.CreateSupplier(new tSupplier
             {
                 Id = 1,
                 Name = "Nowa Era",
-                NIP = "8295829592",
-                CreationDate = new DateTime(2019, 2, 5)
+                NIP = "8295829592"
             });
 
 
@@ -106,7 +107,10 @@ namespace Tests
                 Id = 0
             });
 
+            fileSrv.FillFromFile();
         }
+
+        
 
         [TestMethod]
         public void ClientsAddedAndDeletedTest()
@@ -137,8 +141,7 @@ namespace Tests
             {
                 Id = 20,
                 Name = "Green Owl",
-                NIP = "1234567890",
-                CreationDate = DateTime.Now
+                NIP = "1234567890"
             });
 
             Assert.AreEqual(supplierSrv.GetSupplierList().Count - amountOfSuppliersAtTheBeggining, 1);
@@ -155,12 +158,12 @@ namespace Tests
         {
             tSupplier testSupplier = new tSupplier
             {
-                CreationDate = DateTime.Now,
                 Id = 2,
                 Name = "Nowa Era",
                 NIP = "12345678"
             };
-            Assert.AreEqual(4, bookSrv.GetBookList().Count);
+
+            int countbefore = bookSrv.GetBookList().Count;
 
             bookSrv.CreateBook(new tBook
             {
@@ -173,11 +176,12 @@ namespace Tests
                 Supplier = testSupplier
             });
 
-            Assert.AreEqual(5, bookSrv.GetBookList().Count);
+            Assert.AreEqual(bookSrv.GetBookList().Count - countbefore, 1);
 
+            int count = bookSrv.GetBookList().Count;
             bookSrv.DeleteBook(2);
 
-            Assert.AreEqual(4, bookSrv.GetBookList().Count);
+            Assert.AreEqual(count - bookSrv.GetBookList().Count, 1);
 
             bookSrv.UpdateBook(new tBook
             {
@@ -199,7 +203,6 @@ namespace Tests
             tSupplier supplier = new tSupplier
             {
                 Id = 10,
-                CreationDate = DateTime.Now,
                 Name = "New Delivery Company",
                 NIP = "18234323"
             };

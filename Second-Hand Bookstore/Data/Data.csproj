@@ -37,9 +37,11 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext\DataContext.cs" />
+    <Compile Include="DataModels\BooksCollection.cs" />
     <Compile Include="DataModels\tBook.cs" />
     <Compile Include="DataModels\tBookBoughtEvent.cs" />
     <Compile Include="DataModels\tBookSoldEvent.cs" />
@@ -49,14 +51,22 @@
     <Compile Include="Interfaces\IBookSrv.cs" />
     <Compile Include="Interfaces\IClientSrv.cs" />
     <Compile Include="Interfaces\IEventSrv.cs" />
+    <Compile Include="Interfaces\IFileSrv.cs" />
     <Compile Include="Interfaces\ISupplierSrv.cs" />
     <Compile Include="Services\BookSrv.cs" />
     <Compile Include="Services\ClientSrv.cs" />
     <Compile Include="Services\EventSrv.cs" />
+    <Compile Include="Services\FileSrv.cs" />
     <Compile Include="Services\SupplierSrv.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dictionaries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Data.DataModels;
 
-namespace Logic.Interfaces
+namespace Data.Interfaces
 {
     public interface ISupplierSrv
     {
