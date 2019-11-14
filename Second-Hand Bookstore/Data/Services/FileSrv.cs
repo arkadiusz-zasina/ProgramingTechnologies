@@ -24,7 +24,7 @@ namespace Data.Services
         public void FillFromFile()
         {
             List<tBook> books;
-            using (StreamReader file = File.OpenText("books.txt"))
+            using (StreamReader file = File.OpenText(@"..\..\..\books.txt"))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 books = JsonConvert.DeserializeObject<List<tBook>>(file.ReadToEnd());
@@ -40,7 +40,7 @@ namespace Data.Services
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
             serializer.NullValueHandling = NullValueHandling.Ignore;
 
-            using (StreamWriter sw = new StreamWriter("books.txt"))
+            using (StreamWriter sw = new StreamWriter(@"..\..\..\books.txt"))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, listToSave);
