@@ -15,6 +15,7 @@ namespace Tests
         BookSrv bookSrv;
         EventSrv eventSrv;
         SupplierSrv supplierSrv;
+        UserFcd userFcd;
 
         [TestInitialize]
         public void InitializeDataContext()
@@ -24,6 +25,8 @@ namespace Tests
             clientSrv = new ClientSrv(db);
             bookSrv = new BookSrv(db, eventSrv, clientSrv);
             supplierSrv = new SupplierSrv(db);
+
+            userFcd = new UserFcd(bookSrv, clientSrv, eventSrv, supplierSrv);
 
             // Adding initial Suppliers
             supplierSrv.CreateSupplier(new tSupplier
@@ -189,24 +192,6 @@ namespace Tests
 
             Assert.AreEqual(24.00f, bookSrv.GetBook(4).Price);
 
-
-
-
-            /*bookSrv.BuyBook(new tBook
-            {
-                Amount = 5,
-                Author = "Henryk Sienkiewicz",
-                Name = "Krzyżacy",
-                Id = 5,
-                isNew = true,
-                Price = 80.00f,
-                Supplier = testSupplier
-            });
-
-            Assert.AreEqual(5, bookSrv.GetBookList().Count);
-            Assert.AreEqual(2, eventSrv.GetListOfEvents().Count);
-            Assert.AreEqual(9920.0f, eventSrv.GetAccountBalance());
-*/
         }
         [TestMethod]
         public void TestOfFacade()
@@ -228,16 +213,6 @@ namespace Tests
                 Price = 30.99f,
                 Supplier = supplier
             };
-
-            
-
-            DataContext dataContext = new DataContext();
-            ClientSrv clientSrv = new ClientSrv(dataContext);
-            SupplierSrv supplierSrv = new SupplierSrv(dataContext);
-            EventSrv eventSrv = new EventSrv(dataContext);
-            BookSrv bookSrv = new BookSrv(dataContext, eventSrv, clientSrv);
-
-            UserFcd userFcd = new UserFcd(bookSrv, clientSrv, eventSrv, supplierSrv);
 
             int titlesBeforePurchase = bookSrv.GetBookList().Count;
             float accountBalanceBeforePurchase = eventSrv.GetAccountBalance();

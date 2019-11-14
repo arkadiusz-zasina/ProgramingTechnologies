@@ -46,22 +46,6 @@ namespace Logic.Services
             return datacontext.Books.Where(x => x.Supplier.Name == supplierName).ToList();
         }
 
-        // to fcd
-        public void SellBook(int bookId, int clientId)
-        {
-            var bookToBeSold = datacontext.Books.Single(x => x.Id == bookId);
-            if (bookToBeSold.Amount > 1) bookToBeSold.Amount--;
-
-            _eventSrv.RegisterEvent(new tBookSoldEvent
-            {
-                EventTime = DateTime.Now,
-                AccountBalance = _eventSrv.GetAccountBalance() + bookToBeSold.Price,
-                Book = bookToBeSold,
-                Id = _eventSrv.GetLastId() + 1,
-                Client = _clientSrv.GetClient(clientId)
-            });
-
-        }
 
         public void UpdateBook(tBook book)
         {
