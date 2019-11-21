@@ -16,98 +16,19 @@ namespace Tests
         EventSrv eventSrv;
         SupplierSrv supplierSrv;
         UserFcd userFcd;
-        FileSrv fileSrv;
 
         [TestInitialize]
         public void InitializeDataContext()
         {
-            db = new DataContext();
+            FileFiller fileFiller = new FileFiller();
+            StaticFiller staticFiller = new StaticFiller();
+            db = new DataContext(fileFiller);
+            db.Filler = staticFiller;
             eventSrv = new EventSrv(db);
             clientSrv = new ClientSrv(db);
             bookSrv = new BookSrv(db, eventSrv, clientSrv);
             supplierSrv = new SupplierSrv(db);
-            fileSrv = new FileSrv(bookSrv);
-
             userFcd = new UserFcd(bookSrv, clientSrv, eventSrv, supplierSrv);
-
-
-            // Adding initial Suppliers
-            supplierSrv.CreateSupplier(new tSupplier
-            {
-                Id = 0,
-                Name = "Empik",
-                NIP = "9406723512"
-            });
-            supplierSrv.CreateSupplier(new tSupplier
-            {
-                Id = 1,
-                Name = "Nowa Era",
-                NIP = "8295829592"
-            });
-
-
-            // Adding initial books
-
-            bookSrv.CreateBook(new tBook
-            {
-                Id = 0,
-                Name = "Harry Potter",
-                Author = "J. K. Rowling",
-                Amount = 55,
-                isNew = true,
-                Price = 39.99f,
-                Supplier = supplierSrv.GetSupplier(0)
-            });
-            bookSrv.CreateBook(new tBook
-            {
-                Id = 1,
-                Name = "50 Shades of Gray",
-                Author = "E. L. James",
-                Amount = 43,
-                isNew = true,
-                Price = 15.0f,
-                Supplier = supplierSrv.GetSupplier(1)
-            });
-            bookSrv.CreateBook(new tBook
-            {
-                Id = 2,
-                Name = "Harry Potter",
-                Author = "J. K. Rowling",
-                Amount = 12,
-                isNew = false,
-                Price = 19.99f,
-                Supplier = supplierSrv.GetSupplier(1)
-            });
-            bookSrv.CreateBook(new tBook
-            {
-                Id = 3,
-                Name = "Lord of the Rings",
-                Author = "J. R. R. Tolkien",
-                Amount = 92,
-                isNew = true,
-                Price = 35.99f,
-                Supplier = supplierSrv.GetSupplier(0)
-            });
-
-            // Adding initial Client
-            clientSrv.CreateClient(new tClient
-            {
-                Id = 0,
-                Name = "Jan",
-                Surname = "Kowalski",
-                CreationDate = new DateTime(2018, 12, 12)
-            });
-
-            // Adding initial Event with initial account balance
-            eventSrv.RegisterEvent(new tEvent
-            {
-                AccountBalance = 10000.0f,
-                Book = null,
-                EventTime = DateTime.Now,
-                Id = 0
-            });
-
-            fileSrv.FillFromFile();
         }
 
         

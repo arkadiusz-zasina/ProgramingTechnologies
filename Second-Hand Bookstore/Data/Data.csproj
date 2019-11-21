@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="DataContext\DataContext.cs" />
     <Compile Include="DataModels\BooksCollection.cs" />
+    <Compile Include="DataModels\DataContainer.cs" />
     <Compile Include="DataModels\tBook.cs" />
     <Compile Include="DataModels\tBookBoughtEvent.cs" />
     <Compile Include="DataModels\tBookSoldEvent.cs" />
@@ -51,12 +52,11 @@
     <Compile Include="Interfaces\IBookSrv.cs" />
     <Compile Include="Interfaces\IClientSrv.cs" />
     <Compile Include="Interfaces\IEventSrv.cs" />
-    <Compile Include="Interfaces\IFileSrv.cs" />
+    <Compile Include="Interfaces\IFiller.cs" />
     <Compile Include="Interfaces\ISupplierSrv.cs" />
     <Compile Include="Services\BookSrv.cs" />
     <Compile Include="Services\ClientSrv.cs" />
     <Compile Include="Services\EventSrv.cs" />
-    <Compile Include="Services\FileSrv.cs" />
     <Compile Include="Services\SupplierSrv.cs" />
   </ItemGroup>
   <ItemGroup>

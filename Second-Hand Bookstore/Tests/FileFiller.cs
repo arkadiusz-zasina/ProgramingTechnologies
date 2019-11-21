@@ -1,27 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Data.DataModels;
 using Data.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Data.Services
+namespace Tests
 {
-    public class FileSrv : IFileSrv
+    public class FileFiller : IFiller
     {
-        private IBookSrv bookSrv;
-
-        public FileSrv(IBookSrv bookSrv)
-        {
-            this.bookSrv = bookSrv;
-        }
-
-        public void FillFromFile()
+        public DataContainer Fill()
         {
             List<tBook> books;
             using (StreamReader file = File.OpenText(@"..\..\..\books.txt"))
@@ -29,10 +18,8 @@ namespace Data.Services
                 JsonSerializer serializer = new JsonSerializer();
                 books = JsonConvert.DeserializeObject<List<tBook>>(file.ReadToEnd());
             }
-            foreach(var book in books)
-            {
-                bookSrv.CreateBook(book);
-            }
+
+            return new DataContainer(books, null, null, null);
         }
         public void save(List<tBook> listToSave)
         {
