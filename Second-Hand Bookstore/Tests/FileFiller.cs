@@ -19,7 +19,7 @@ namespace Tests
                 books = JsonConvert.DeserializeObject<List<tBook>>(file.ReadToEnd());
             }
 
-            return new DataContainer(books, null, null, null);
+            return new DataContainer(books, new List<tClient>(), new List<tSupplier>(), new List<tEvent>());
         }
         public void save(List<tBook> listToSave)
         {

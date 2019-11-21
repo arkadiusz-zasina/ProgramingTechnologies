@@ -15,13 +15,7 @@ namespace Data.DataContext
         public List<tSupplier> Suppliers { get; set; }
         public List<tEvent> Events { get; set; }
 
-        public IFiller Filler {
-            get { return Filler; } 
-            set { 
-                Filler = value; 
-                Fill(); 
-            } 
-        }
+        private IFiller Filler;
 
         //fill method
         public DataContext(IFiller filler) //interface //pass value bool (1)
@@ -37,10 +31,15 @@ namespace Data.DataContext
 
         public void Fill()
         {
-            Books = Filler.Fill().Books;
-            Clients = Filler.Fill().Clients;
-            Suppliers = Filler.Fill().Suppliers;
-            Events = Filler.Fill().Events;
+            Books.AddRange(Filler.Fill().Books);
+            Clients.AddRange(Filler.Fill().Clients);
+            Suppliers.AddRange(Filler.Fill().Suppliers);
+            Events.AddRange(Filler.Fill().Events);
+        }
+
+        public void SetFiller(IFiller filler)
+        {
+            this.Filler = filler;
         }
     }
 }

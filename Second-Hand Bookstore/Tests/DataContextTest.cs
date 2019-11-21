@@ -23,7 +23,8 @@ namespace Tests
             FileFiller fileFiller = new FileFiller();
             StaticFiller staticFiller = new StaticFiller();
             db = new DataContext(fileFiller);
-            db.Filler = staticFiller;
+            db.SetFiller(staticFiller);
+            db.Fill();
             eventSrv = new EventSrv(db);
             clientSrv = new ClientSrv(db);
             bookSrv = new BookSrv(db, eventSrv, clientSrv);
