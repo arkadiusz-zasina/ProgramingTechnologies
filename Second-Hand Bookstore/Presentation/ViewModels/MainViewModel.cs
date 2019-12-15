@@ -1,0 +1,61 @@
+﻿using Logic.Interfaces;
+using Presentation.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Presentation.ViewModels
+{
+    public class MainViewModel : INotifyPropertyChanged
+    {
+        private readonly IUserFcd _userFcd;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public MainViewModel(IUserFcd userFcd)
+        {
+            _userFcd = userFcd;
+            this.RefreshBooks();
+        }
+
+        private async void RefreshBooks()
+        {
+            var results = await _userFcd.GetAllBooks();
+            this.Books = results.Select(x => new Book
+            {
+                Amount = x.Amount,
+                Author = x.Author,
+                Id = x.Id,
+                isNew = x.isNew,
+                Name = x.Name,
+                Price = x.Price
+            });
+        }
+
+        private IEnumerable<Book> books;
+        public IEnumerable<Book> Books
+        {
+            get
+            {
+                return this.books;
+            }
+            set
+            {
+                this.books = value;
+                this.OnPropertyChanged("Books");
+            }
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+    }
+}

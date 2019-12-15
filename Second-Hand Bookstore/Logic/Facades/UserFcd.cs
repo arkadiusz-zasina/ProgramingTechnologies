@@ -2,6 +2,8 @@
 using Data.Interfaces;
 using Logic.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Logic.Facades
 {
@@ -76,6 +78,11 @@ namespace Logic.Facades
             Console.WriteLine("Total number of books: " + numberOfBooks);
             Console.WriteLine("Number of clients: " + _clientSrv.GetClientList().Count);
             Console.WriteLine("Number of suppliers: " + _supplierSrv.GetSupplierList().Count);
+        }
+
+        public async Task<List<tBook>> GetAllBooks()
+        {
+            return await Task.Run(() => _bookSrv.GetBookList());
         }
 
         public void SellBook(int bookId, int clientId)

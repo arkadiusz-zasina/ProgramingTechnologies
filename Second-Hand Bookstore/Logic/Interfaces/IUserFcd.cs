@@ -14,5 +14,6 @@ namespace Logic.Interfaces
         void BuyBook(tBook book);
         void ShowBooksOfSupplier(string supplierName);
         void ShowAvailibleBooks();
+        Task<List<tBook>> GetAllBooks();
     }
 }

@@ -8,7 +8,7 @@ using Data.Interfaces;
 
 namespace Tests
 {
-    class StaticFiller : IFiller
+    public class StaticFiller : IFiller
     {
         public DataContainer Fill()
         {
