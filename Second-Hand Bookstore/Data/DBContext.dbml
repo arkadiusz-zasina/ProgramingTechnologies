@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="BookstoreDB" Class="DBContextDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-56L7BU2\SQLEXPRESS;Initial Catalog=BookstoreDB;Integrated Security=True" SettingsObjectName="Data.Properties.Settings" SettingsPropertyName="BookstoreDBConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=10.1.97.47\SQLEXPRESS;Initial Catalog=BookstoreDB;Integrated Security=False;User Id=admin;Password=adminpassword1" SettingsObjectName="Data.Properties.Settings" SettingsPropertyName="BookstoreDBConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Books" Member="Books">
     <Type Name="Books">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
