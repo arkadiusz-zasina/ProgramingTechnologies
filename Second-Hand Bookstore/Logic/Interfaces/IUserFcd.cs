@@ -17,6 +17,9 @@ namespace Logic.Interfaces
         void ShowAvailibleBooks();
         Task<List<Books>> GetAllBooks();
         Task<IEnumerable<Books>> GetBooksByString(string seraching);
+        Task<IEnumerable<Clients>> GetClientsByString(string searching);
         Task<float> GetAccountBalance();
+        Task RegisterClient(Clients client);
+        Task AddBook(Books book);
     }
 }

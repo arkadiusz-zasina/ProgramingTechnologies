@@ -20,6 +20,7 @@ namespace Presentation.ViewModels
             _userFcd = userFcd;
             this.RefreshBooks();
             this.SellBook = new RelayCommand(sellBook, () => currentClient != null && currentBook != null && currentBook.Amount > 0) ;
+            this.RegisterClient = new RelayCommand(registerClient, () => clientToBeCreated.c_name.Any() && clientToBeCreated.c_surname.Any());        
         }
 
         private async void RefreshBooks()
@@ -36,18 +37,33 @@ namespace Presentation.ViewModels
             });
         }
 
-        private String searchString;
-        public String SearchString
+        private String searchStringBook;
+        public String SearchStringBook
         {
             get
             {
-                return this.searchString;
+                return this.searchStringBook;
             }
             set
             {
-                this.searchString = value;
-                OnPropertyChanged("SearchString");
+                this.searchStringBook = value;
+                OnPropertyChanged("SearchStringBook");
                 searchBooks(value);
+            }
+        }
+
+        public String searchStringClient;
+        public String SearchStringClient
+        {
+            get
+            {
+                return this.searchStringClient;
+            }
+            set
+            {
+                this.searchStringClient = value;
+                OnPropertyChanged("SearchStringClient");
+                searchClients(value);
             }
         }
 
@@ -80,6 +96,20 @@ namespace Presentation.ViewModels
             }
         }
 
+        private IEnumerable<Client> clients;
+        public IEnumerable<Client> Clients
+        {
+            get
+            {
+                return this.clients;
+            }
+            set
+            {
+                this.clients = value;
+                this.OnPropertyChanged("Clients");
+            }
+        }
+
         private Book currentBook;
         public Book CurrentBook
         {
@@ -108,6 +138,20 @@ namespace Presentation.ViewModels
             }
         }
 
+        private Client clientToBeCreated;
+        public Client ClientToBeCreated
+        {
+            get
+            {
+                return this.clientToBeCreated;
+            }
+            set
+            {
+                this.clientToBeCreated = value;
+                this.OnPropertyChanged("ClientToBeCreated");
+            }
+        }
+
         public async void searchBooks(String searchS)
         {
             var result = await _userFcd.GetBooksByString(searchS);
@@ -121,6 +165,19 @@ namespace Presentation.ViewModels
             });
         }
 
+        public async void searchClients(String searchS)
+        {
+            var result = await _userFcd.GetClientsByString(searchS);
+            this.Clients = result.Select(x => new Client
+            {
+                id = x.id,
+                c_name = x.c_name,
+                c_surname = x.c_surname,
+                creationDate = (DateTime)x.creation_date
+            });
+            
+        }
+
         public async void GetAccountBalance()
         {
             this.AccountBalance = await _userFcd.GetAccountBalance();
@@ -131,11 +188,23 @@ namespace Presentation.ViewModels
             int bookId = currentBook.Id;
             int clientId = currentClient.id;
             await _userFcd.SellBook(bookId, clientId);
-            searchBooks(searchString);
+            searchBooks(searchStringBook);
             GetAccountBalance();
         }
 
         public RelayCommand SellBook { get; set; }
+
+        public async void registerClient()
+        {
+            await _userFcd.RegisterClient(new Data.Clients
+            {
+                c_name = clientToBeCreated.c_name,
+                c_surname = clientToBeCreated.c_surname,
+                creation_date = clientToBeCreated.creationDate
+            });
+        }
+
+        public RelayCommand RegisterClient { get; set; }
 
         private void OnPropertyChanged(string propertyName)
         {

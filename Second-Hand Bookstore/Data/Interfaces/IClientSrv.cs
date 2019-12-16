@@ -14,6 +14,6 @@ namespace Data.Interfaces
         void UpdateClient(Clients client);
         void DeleteClient(int id);
         List<Clients> GetClientList();
-
+        IEnumerable<Clients> GetClientsByString(string search);
     }
 }
