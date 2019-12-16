@@ -42,8 +42,15 @@ namespace Data.Services
 
         public void UpdateClient(Clients client)
         {
-            DeleteClient(client.id);
-            CreateClient(client);
+            var toupdate = from c in datacontext.Clients
+                           where c.id == client.id
+                           select c;
+
+            foreach(Clients c in datacontext.Clients)
+            {
+                c.c_name = client.c_name;
+                c.c_surname = client.c_surname;
+            }
         }
     }
 }
