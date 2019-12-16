@@ -11,7 +11,7 @@ namespace Logic.Interfaces
     public interface IUserFcd
     {
         void GenerateShopRaport();
-        void SellBook(int bookId, int clientId);
+        Task SellBook(int bookId, int clientId);
         void BuyBook(Books book);
         void ShowBooksOfSupplier(string supplierName);
         void ShowAvailibleBooks();
