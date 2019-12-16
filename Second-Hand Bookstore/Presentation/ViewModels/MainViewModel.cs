@@ -50,6 +50,21 @@ namespace Presentation.ViewModels
             }
         }
 
+        public float accountBalance;
+        public float AccountBalance
+        {
+            get
+            {
+                return this.AccountBalance;
+            }
+            set
+            {
+                this.accountBalance = value;
+                OnPropertyChanged("AccountBalance");
+                GetAccountBalance();
+            }
+        }
+
         private IEnumerable<Book> books;
         public IEnumerable<Book> Books
         {
@@ -75,6 +90,11 @@ namespace Presentation.ViewModels
                 Name = x.b_name,
                 Price = (float)x.price
             });
+        }
+
+        public async void GetAccountBalance()
+        {
+            this.AccountBalance = await _userFcd.GetAccountBalance();
         }
 
 

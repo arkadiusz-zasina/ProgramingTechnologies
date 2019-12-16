@@ -17,5 +17,6 @@ namespace Logic.Interfaces
         void ShowAvailibleBooks();
         Task<List<Books>> GetAllBooks();
         Task<IEnumerable<Books>> GetBooksByString(string seraching);
+        Task<float> GetAccountBalance();
     }
 }

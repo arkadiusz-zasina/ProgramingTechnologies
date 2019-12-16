@@ -131,5 +131,8 @@ namespace Logic.Facades
 
         public async Task<IEnumerable<Books>> GetBooksByString(string seraching)
             => await Task.Run(() => _bookSrv.GetBooksByString(seraching));
+
+        public async Task<float> GetAccountBalance()
+            => await Task.Run(() => _eventSrv.GetAccountBalance());
     }
 }
