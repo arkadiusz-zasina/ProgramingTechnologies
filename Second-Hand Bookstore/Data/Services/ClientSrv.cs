@@ -40,6 +40,16 @@ namespace Data.Services
             return datacontext.Clients.ToList();
         }
 
+        public IEnumerable<Clients> GetClientsByString(string search)
+        {
+            var searchResult = from c in datacontext.Clients
+                               where c.c_name.Contains(search)
+                               || c.c_surname.Contains(search)
+                               select c;
+
+            return searchResult;
+        }
+
         public void UpdateClient(Clients client)
         {
             var toupdate = from c in datacontext.Clients

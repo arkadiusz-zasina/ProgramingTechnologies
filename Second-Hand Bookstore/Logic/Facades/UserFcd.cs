@@ -126,5 +126,19 @@ namespace Logic.Facades
 
         public async Task<float> GetAccountBalance()
             => await Task.Run(() => _eventSrv.GetAccountBalance());
+
+        Task IUserFcd.SellBook(int bookId, int clientId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task RegisterClient(Clients client)
+            => await Task.Run(() => _clientSrv.CreateClient(client));
+
+        public async Task AddBook(Books book)
+            => await Task.Run(() => _bookSrv.CreateBook(book));
+
+        public async Task<IEnumerable<Clients>> GetClientsByString(string searching)
+            => await Task.Run(() => _clientSrv.GetClientsByString(searching));
     }
 }
