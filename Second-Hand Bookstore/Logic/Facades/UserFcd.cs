@@ -128,5 +128,8 @@ namespace Logic.Facades
 
         public void ShowBooksOfSupplier(string supplierName)
             => _bookSrv.GetBooksBySupplier(supplierName);
+
+        public async Task<IEnumerable<Books>> GetBooksByString(string seraching)
+            => await Task.Run(() => _bookSrv.GetBooksByString(seraching));
     }
 }

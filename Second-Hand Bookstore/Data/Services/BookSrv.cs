@@ -67,5 +67,15 @@ namespace Data.Services
                 b.supplierID = book.supplierID;
             }
         }
+
+        public IEnumerable<Books> GetBooksByString(string searched)
+        {
+            var searchResult = from b in datacontext.Books
+                               where b.b_name.Contains(searched)
+                               || b.b_author.Contains(searched)
+                               select b;
+
+            return searchResult;
+        }
     }
 }

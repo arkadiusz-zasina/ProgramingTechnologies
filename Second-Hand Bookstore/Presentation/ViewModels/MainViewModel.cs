@@ -35,6 +35,21 @@ namespace Presentation.ViewModels
             });
         }
 
+        private String searchString;
+        public String SearchString
+        {
+            get
+            {
+                return this.searchString;
+            }
+            set
+            {
+                this.searchString = value;
+                OnPropertyChanged("SearchString");
+                searchBooks(value);
+            }
+        }
+
         private IEnumerable<Book> books;
         public IEnumerable<Book> Books
         {
@@ -48,6 +63,20 @@ namespace Presentation.ViewModels
                 this.OnPropertyChanged("Books");
             }
         }
+
+        public async void searchBooks(String searchS)
+        {
+            var result = await _userFcd.GetBooksByString(searchS);
+            this.Books = result.Select(x => new Book {
+                Amount = x.amount.Value,
+                Author = x.b_author,
+                Id = x.id,
+                isNew = x.isNew.Value,
+                Name = x.b_name,
+                Price = (float)x.price
+            });
+        }
+
 
         private void OnPropertyChanged(string propertyName)
         {
