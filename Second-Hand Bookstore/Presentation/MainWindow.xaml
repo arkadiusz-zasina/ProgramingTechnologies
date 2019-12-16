@@ -30,10 +30,10 @@
 
         <DataGrid Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" AutoGenerateColumns="True"
                   ItemsSource="{Binding Path=Books}" />
-        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
-        <Label Grid.Row="1" Grid.Column="2"/>
-        <ComboBox Grid.Row="2" Grid.Column="1"/>
-        <Label Grid.Row="1" Grid.Column="1">Sort By:</Label>
-        <Button Grid.Column="2" Grid.Row="7">Sell</Button>
+        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" Padding="5" FontSize="30" Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="1" Grid.Column="2" FontSize="20" HorizontalAlignment="Center">Account Balance: 1000</Label>
+        <ComboBox Grid.Row="2" Grid.Column="1" Margin="10"/>
+        <Label Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom">Sort By:</Label>
+        <Button Grid.Column="2" Grid.Row="7" Margin="10">Sell</Button>
     </Grid>
 </Window>
