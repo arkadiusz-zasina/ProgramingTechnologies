@@ -9,16 +9,31 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>   
+            <ColumnDefinition Width="*"/>   
+            <ColumnDefinition Width="40"/>   
+            <ColumnDefinition Width=".5*"/>   
+            <ColumnDefinition Width=".5*"/>   
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="1" Grid.Column="1" AutoGenerateColumns="True"
+        <DataGrid Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" AutoGenerateColumns="True"
                   ItemsSource="{Binding Path=Books}" />
+        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SearchString}"/>
+        <Label Grid.Row="1" Grid.Column="2"/>
+        <ComboBox Grid.Row="2" Grid.Column="1"/>
+        <Label Grid.Row="1" Grid.Column="1">Sort By:</Label>
+        <Button Grid.Column="2" Grid.Row="7">Sell</Button>
     </Grid>
 </Window>
