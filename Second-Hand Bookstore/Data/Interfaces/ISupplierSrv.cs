@@ -9,10 +9,10 @@ namespace Data.Interfaces
 {
     public interface ISupplierSrv
     {
-        void CreateSupplier(tSupplier supplier);
-        tSupplier GetSupplier(int id);
-        void UpdateSupplier(tSupplier supplier);
+        void CreateSupplier(Suppliers supplier);
+        Suppliers GetSupplier(int id);
+        void UpdateSupplier(Suppliers supplier);
         void DeleteSupplier(int id);
-        List<tSupplier> GetSupplierList();
+        List<Suppliers> GetSupplierList();
     }
 }

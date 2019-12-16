@@ -11,37 +11,39 @@ namespace Data.Services
 {
     public class SupplierSrv : ISupplierSrv
     {
-        private Data.DataContext.DataContext datacontext;
+        private DBContextDataContext datacontext;
 
-        public SupplierSrv(Data.DataContext.DataContext datacontext)
+        public SupplierSrv(DBContextDataContext datacontext)
         {
             this.datacontext = datacontext;
         }
 
-        public void CreateSupplier(tSupplier supplier)
+        public void CreateSupplier(Suppliers supplier)
         {
-            datacontext.Suppliers.Add(supplier);
+            datacontext.Suppliers.InsertOnSubmit(supplier);
+            datacontext.SubmitChanges();
         }
 
         public void DeleteSupplier(int id)
         {
-            datacontext.Suppliers.RemoveAll(x => x.Id == id);
+            datacontext.Suppliers.DeleteOnSubmit(datacontext.Suppliers.Where(i => i.id == id).Single());
+            datacontext.SubmitChanges();
         }
 
-        public tSupplier GetSupplier(int id)
+        public Suppliers GetSupplier(int id)
         {
-            return datacontext.Suppliers.Single(x => x.Id == id);
+            return datacontext.Suppliers.Single(x => x.id == id);
         }
 
-        public List<tSupplier> GetSupplierList()
+        public List<Suppliers> GetSupplierList()
         {
-            return datacontext.Suppliers;
+            return datacontext.Suppliers.ToList();
         }
 
-        public void UpdateSupplier(tSupplier supplier)
+        public void UpdateSupplier(Suppliers supplier)
         {
-            var tempsupplier = datacontext.Suppliers.Single(x => x.Id == supplier.Id);
-            tempsupplier = supplier;
+            DeleteSupplier(supplier.id);
+            CreateSupplier(supplier);
         }
     }
 }
