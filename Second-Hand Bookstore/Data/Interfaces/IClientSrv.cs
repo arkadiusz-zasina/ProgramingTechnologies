@@ -9,11 +9,11 @@ namespace Data.Interfaces
 {
     public interface IClientSrv
     {
-        void CreateClient(tClient client);
-        tClient GetClient(int id);
-        void UpdateClient(tClient client);
+        void CreateClient(Clients client);
+        Clients GetClient(int id);
+        void UpdateClient(Clients client);
         void DeleteClient(int id);
-        List<tClient> GetClientList();
+        List<Clients> GetClientList();
 
     }
 }

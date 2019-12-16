@@ -11,37 +11,39 @@ namespace Data.Services
 {
     public class ClientSrv : IClientSrv
     {
-        private Data.DataContext.DataContext datacontext;
+        private DBContextDataContext datacontext;
 
-        public ClientSrv(Data.DataContext.DataContext database)
+        public ClientSrv(DBContextDataContext datacontext)
         {
-            datacontext = database;
+            this.datacontext = datacontext;
         }
 
-        public void CreateClient(tClient client)
+        public void CreateClient(Clients client)
         {
-            datacontext.Clients.Add(client);
+            datacontext.Clients.InsertOnSubmit(client);
+            datacontext.SubmitChanges();
         }
 
         public void DeleteClient(int id)
         {
-            datacontext.Clients.RemoveAll(x => x.Id == id);
+            datacontext.Clients.DeleteOnSubmit(datacontext.Clients.Where(i => i.id == id).Single());
+            datacontext.SubmitChanges();
         }
 
-        public tClient GetClient(int id)
+        public Clients GetClient(int id)
         {
-            return datacontext.Clients.Single(x => x.Id == id);
+            return datacontext.Clients.Single(x => x.id == id);
         }
 
-        public List<tClient> GetClientList()
+        public List<Clients> GetClientList()
         {
-            return datacontext.Clients;
+            return datacontext.Clients.ToList();
         }
 
-        public void UpdateClient(tClient client)
+        public void UpdateClient(Clients client)
         {
-            var tempclient = datacontext.Clients.Single(x => x.Id == client.Id);
-            tempclient = client;
+            DeleteClient(client.id);
+            CreateClient(client);
         }
     }
 }
