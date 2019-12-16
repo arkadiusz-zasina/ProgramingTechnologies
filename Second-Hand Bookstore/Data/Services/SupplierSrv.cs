@@ -42,8 +42,9 @@ namespace Data.Services
 
         public void UpdateSupplier(Suppliers supplier)
         {
-            DeleteSupplier(supplier.id);
-            CreateSupplier(supplier);
+            var toupdate = from s in datacontext.Suppliers
+                           where s.id == s.id
+                           select s;
         }
     }
 }

@@ -53,10 +53,19 @@ namespace Data.Services
 
         public void UpdateBook(Books book)
         {
-            DeleteBook(book.id);
-            CreateBook(book);
-            // var tempbook = database.Books.Single(x => x.Id == book.Id);
-            // tempbook = book;
+            var toupdate = from b in datacontext.Books
+                           where b.id == book.id
+                           select b;
+
+            foreach(Books b in toupdate)
+            {
+                b.b_name = book.b_name;
+                b.b_author = book.b_author;
+                b.price = book.price;
+                b.amount = book.amount;
+                b.isNew = book.isNew;
+                b.supplierID = book.supplierID;
+            }
         }
     }
 }
