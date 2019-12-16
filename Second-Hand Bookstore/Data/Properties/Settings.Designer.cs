@@ -26,8 +26,7 @@ namespace Data.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DESKTOP-56L7BU2\\SQLEXPRESS;Initial Catalog=BookstoreDB;Integrated Sec" +
-            "urity=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=10.1.97.47\\SQLEXPRESS;Initial Catalog=BookstoreDB;Integrated Security=False;User Id=admin;Password=adminpassword1")]
         public string BookstoreDBConnectionString {
             get {
                 return ((string)(this["BookstoreDBConnectionString"]));
