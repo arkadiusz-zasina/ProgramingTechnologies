@@ -131,6 +131,8 @@ namespace Presentation.ViewModels
             int bookId = currentBook.Id;
             int clientId = currentClient.id;
             await _userFcd.SellBook(bookId, clientId);
+            searchBooks(searchString);
+            GetAccountBalance();
         }
 
         public RelayCommand SellBook { get; set; }
