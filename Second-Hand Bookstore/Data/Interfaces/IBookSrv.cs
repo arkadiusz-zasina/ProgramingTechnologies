@@ -15,5 +15,6 @@ namespace Data.Interfaces
         void DeleteBook(int id);
         List<Books> GetBookList();
         List<Books> GetBooksBySupplier(string supplierName);
+        IEnumerable<Books> GetBooksByString(string searched);
     }
 }

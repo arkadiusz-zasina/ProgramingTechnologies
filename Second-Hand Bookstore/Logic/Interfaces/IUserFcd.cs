@@ -16,5 +16,6 @@ namespace Logic.Interfaces
         void ShowBooksOfSupplier(string supplierName);
         void ShowAvailibleBooks();
         Task<List<Books>> GetAllBooks();
+        Task<IEnumerable<Books>> GetBooksByString(string seraching);
     }
 }
