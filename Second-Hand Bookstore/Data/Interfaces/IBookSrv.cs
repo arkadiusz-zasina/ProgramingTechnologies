@@ -9,11 +9,11 @@ namespace Data.Interfaces
 {
     public interface IBookSrv
     {
-        void CreateBook(tBook book);
-        tBook GetBook(int id);
-        void UpdateBook(tBook book);
+        void CreateBook(Books book);
+        Books GetBook(int id);
+        void UpdateBook(Books book);
         void DeleteBook(int id);
-        List<tBook> GetBookList();
-        List<tBook> GetBooksBySupplier(string supplierName);
+        List<Books> GetBookList();
+        List<Books> GetBooksBySupplier(string supplierName);
     }
 }
