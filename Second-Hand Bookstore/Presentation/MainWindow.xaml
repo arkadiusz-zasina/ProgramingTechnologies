@@ -30,7 +30,7 @@
 
         <DataGrid Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3" AutoGenerateColumns="True"
                   ItemsSource="{Binding Path=Books}" />
-        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SearchString}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SearchString, UpdateSourceTrigger=PropertyChanged}" />
         <Label Grid.Row="1" Grid.Column="2"/>
         <ComboBox Grid.Row="2" Grid.Column="1"/>
         <Label Grid.Row="1" Grid.Column="1">Sort By:</Label>
