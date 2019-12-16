@@ -21,5 +21,12 @@ namespace Logic.Interfaces
         Task<float> GetAccountBalance();
         Task RegisterClient(Clients client);
         Task AddBook(Books book);
+        Task<Boolean> isSupplierAvailable(int id);
+        Task DeleteBook(int id);
+        Task UpdateBook(Books book);
+        Task<Books> GetBook(int id);
+        Task<Clients> GetClient(int id);
+        Task UpdateClient(Clients client);
+        Task DeleteClient(int id);
     }
 }

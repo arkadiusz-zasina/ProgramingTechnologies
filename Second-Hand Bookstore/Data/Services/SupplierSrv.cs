@@ -40,6 +40,11 @@ namespace Data.Services
             return datacontext.Suppliers.ToList();
         }
 
+        public bool isSupplierAvailable(int id)
+        {
+            return datacontext.Suppliers.Any(x => x.id == id);
+        }
+
         public void UpdateSupplier(Suppliers supplier)
         {
             var toupdate = from s in datacontext.Suppliers

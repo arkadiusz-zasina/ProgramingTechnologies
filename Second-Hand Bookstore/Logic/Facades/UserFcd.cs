@@ -148,5 +148,26 @@ namespace Logic.Facades
 
         public async Task<IEnumerable<Clients>> GetClientsByString(string searching)
             => await Task.Run(() => _clientSrv.GetClientsByString(searching));
+
+        public async Task<bool> isSupplierAvailable(int id)
+            => await Task.Run(() => _supplierSrv.isSupplierAvailable(id));
+
+        public async Task DeleteBook(int id)
+            => await Task.Run(() => _bookSrv.DeleteBook(id));
+
+        public async Task UpdateBook(Books book)
+            => await Task.Run(() => _bookSrv.UpdateBook(book));
+
+        public async Task<Books> GetBook(int id)
+            => await Task.Run(() => _bookSrv.GetBook(id));
+
+        public async Task<Clients> GetClient(int id)
+            => await Task.Run(() => _clientSrv.GetClient(id));
+
+        public async Task UpdateClient(Clients client)
+            => await Task.Run(() => _clientSrv.UpdateClient(client));
+
+        public async Task DeleteClient(int id)
+            => await Task.Run(() => _clientSrv.DeleteClient(id));
     }
 }

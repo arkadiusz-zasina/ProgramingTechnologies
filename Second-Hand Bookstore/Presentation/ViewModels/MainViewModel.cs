@@ -19,8 +19,20 @@ namespace Presentation.ViewModels
         {
             _userFcd = userFcd;
             this.RefreshBooks();
-            this.SellBook = new RelayCommand(sellBook, () => currentClient != null && currentBook != null && currentBook.Amount > 0) ;
-            this.RegisterClient = new RelayCommand(registerClient, () => clientToBeCreated.c_name.Any() && clientToBeCreated.c_surname.Any());        
+            this.SellBook = new RelayCommand(sellBook, 
+                () => currentClient != null 
+                && currentBook != null 
+                && currentBook.Amount > 0) ;
+            this.RegisterClient = new RelayCommand(registerClient, 
+                () => clientToBeCreated.c_name.Length > 0 
+                && clientToBeCreated.c_surname.Length > 0);
+            this.AddBook = new RelayCommand(addBook, 
+                () => bookToBeCreated.Name.Length > 0 
+                && bookToBeCreated.Author.Length > 0 
+                && bookToBeCreated.Amount > 0
+                && bookToBeCreated.Price > 0
+                && bookToBeCreated.SupplierID > 0
+                );
         }
 
         private async void RefreshBooks()
@@ -124,6 +136,20 @@ namespace Presentation.ViewModels
             }
         }
 
+        private Book bookToBeCreated;
+        public Book BookToBeCreated
+        {
+            get
+            {
+                return this.bookToBeCreated;
+            }
+            set
+            {
+                this.bookToBeCreated = value;
+                this.OnPropertyChanged("BookToBeCreated");
+            }
+        }
+
         private Client currentClient;
         public Client CurrentClient
         {
@@ -205,6 +231,21 @@ namespace Presentation.ViewModels
         }
 
         public RelayCommand RegisterClient { get; set; }
+
+        public async void addBook()
+        {
+            await _userFcd.AddBook(new Data.Books
+            {
+                b_name = bookToBeCreated.Name,
+                b_author = bookToBeCreated.Author,
+                amount = bookToBeCreated.Amount,
+                price = bookToBeCreated.Price,
+                isNew = bookToBeCreated.isNew,
+                supplierID = bookToBeCreated.SupplierID
+            });
+        }
+
+        public RelayCommand AddBook { get; set; }
 
         private void OnPropertyChanged(string propertyName)
         {

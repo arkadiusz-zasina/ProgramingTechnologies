@@ -14,5 +14,6 @@ namespace Data.Interfaces
         void UpdateSupplier(Suppliers supplier);
         void DeleteSupplier(int id);
         List<Suppliers> GetSupplierList();
+        Boolean isSupplierAvailable(int id);
     }
 }

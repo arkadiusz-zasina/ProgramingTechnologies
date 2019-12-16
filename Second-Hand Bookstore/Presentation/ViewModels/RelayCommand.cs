@@ -19,6 +19,7 @@ namespace Presentation.ViewModels
             this.m_CanExecute = canExecute;
         }
 
+
         public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
