@@ -9,8 +9,8 @@ namespace Data.Interfaces
 {
     public interface IEventSrv
     {
-        void RegisterEvent(tEvent _event);
-        List<tEvent> GetListOfEvents();
+        void RegisterEvent(Events _event);
+        List<Events> GetListOfEvents();
 
         float GetAccountBalance();
         int GetLastId();

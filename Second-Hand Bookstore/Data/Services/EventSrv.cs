@@ -11,31 +11,32 @@ namespace Data.Services
 {
     public class EventSrv : IEventSrv
     {
-        private Data.DataContext.DataContext datacontext;
+        private DBContextDataContext datacontext;
 
-        public EventSrv(Data.DataContext.DataContext datacontext)
+        public EventSrv(DBContextDataContext datacontext)
         {
             this.datacontext = datacontext;
         }
 
         public float GetAccountBalance()
         {
-            return datacontext.Events.Last().AccountBalance;
+            return (float)datacontext.Events.Last().account_balance;
         }
 
         public int GetLastId()
         {
-            return datacontext.Events.Last().Id;
+            return datacontext.Events.Last().id;
         }
 
-        public List<tEvent> GetListOfEvents()
+        public List<Events> GetListOfEvents()
         {
-            return datacontext.Events;
+            return datacontext.Events.ToList();
         }
 
-        public void RegisterEvent(tEvent _event)
+        public void RegisterEvent(Events _event)
         {
-            datacontext.Events.Add(_event);
+            datacontext.Events.InsertOnSubmit(_event);
+            datacontext.SubmitChanges();
         }
     }
 }
