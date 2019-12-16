@@ -19,6 +19,7 @@ namespace Presentation.ViewModels
         {
             _userFcd = userFcd;
             this.RefreshBooks();
+            this.GetAccountBalance();
         }
 
         private async void RefreshBooks()
@@ -55,13 +56,12 @@ namespace Presentation.ViewModels
         {
             get
             {
-                return this.AccountBalance;
+                return this.accountBalance;
             }
             set
             {
                 this.accountBalance = value;
                 OnPropertyChanged("AccountBalance");
-                GetAccountBalance();
             }
         }
 

@@ -20,12 +20,12 @@ namespace Data.Services
 
         public float GetAccountBalance()
         {
-            return (float)datacontext.Events.Last().account_balance;
+            return (float)datacontext.Events.OrderByDescending(x => x.id).First().account_balance;
         }
 
         public int GetLastId()
         {
-            return datacontext.Events.Last().id;
+            return datacontext.Events.OrderByDescending(x => x.id).First().id;
         }
 
         public List<Events> GetListOfEvents()
