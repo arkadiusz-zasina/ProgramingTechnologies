@@ -26,12 +26,12 @@ namespace Presentation.ViewModels
             var results = await _userFcd.GetAllBooks();
             this.Books = results.Select(x => new Book
             {
-                Amount = x.Amount,
-                Author = x.Author,
-                Id = x.Id,
-                isNew = x.isNew,
-                Name = x.Name,
-                Price = x.Price
+                Amount = x.amount.Value,
+                Author = x.b_author,
+                Id = x.id,
+                isNew = x.isNew.Value,
+                Name = x.b_name,
+                Price = (float)x.price
             });
         }
 

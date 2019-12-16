@@ -1,4 +1,4 @@
-﻿using Data.DataModels;
+﻿using Data;
 using Data.Interfaces;
 using Logic.Interfaces;
 using System;
@@ -22,45 +22,45 @@ namespace Logic.Facades
             _supplierSrv = supplierSrv;
         }
 
-        public void BuyBook(tBook book)
+        public void BuyBook(Books book)
         {
-            var bookInDatabase = _bookSrv.GetBook(book.Id);
+            var bookInDatabase = _bookSrv.GetBook(book.id);
             var isBought = bookInDatabase != null;
 
             if (isBought)
             {
-                _bookSrv.UpdateBook(new tBook
+                _bookSrv.UpdateBook(new Books
                 {
-                    Amount = bookInDatabase.Amount + book.Amount,
-                    Author = book.Author,
-                    Id = book.Id,
+                    amount = bookInDatabase.amount + book.amount,
+                    b_author = book.b_author,
+                    id = book.id,
                     isNew = book.isNew,
-                    Name = book.Name,
-                    Price = book.Price,
-                    Supplier = book.Supplier
+                    b_name = book.b_name,
+                    price = book.price,
+                    supplierID = book.supplierID
                 });
             }
             else
             {
-                _bookSrv.CreateBook(new tBook
+                _bookSrv.CreateBook(new Books
                 {
-                    Amount = book.Amount,
-                    Author = book.Author,
-                    Id = book.Id,
+                    amount = book.amount,
+                    b_author = book.b_author,
+                    id = book.id,
                     isNew = book.isNew,
-                    Name = book.Name,
-                    Price = book.Price,
-                    Supplier = book.Supplier
+                    b_name = book.b_name,
+                    price = book.price,
+                    supplierID = book.supplierID
                 });
             }
 
-            _eventSrv.RegisterEvent(new tBookBoughtEvent
+            _eventSrv.RegisterEvent(new Events
             {
-                EventTime = DateTime.Now,
-                AccountBalance = _eventSrv.GetAccountBalance() - (book.Price * book.Amount),
-                Book = book,
-                Id = _eventSrv.GetLastId() + 1,
-                Supplier = book.Supplier
+                event_time = DateTime.Now,
+                account_balance = _eventSrv.GetAccountBalance() - (book.price * book.amount),
+                book_id = book.id,
+                id = _eventSrv.GetLastId() + 1,
+                supplier_id = book.supplierID
             });
         }
 
@@ -71,7 +71,7 @@ namespace Logic.Facades
             var numberOfBooks = 0;
             foreach(var book in _bookSrv.GetBookList())
             {
-                numberOfBooks += book.Amount;
+                numberOfBooks += book.amount.Value;
             }
 
             Console.WriteLine("Number of titles: " + _bookSrv.GetBookList().Count);
@@ -80,7 +80,7 @@ namespace Logic.Facades
             Console.WriteLine("Number of suppliers: " + _supplierSrv.GetSupplierList().Count);
         }
 
-        public async Task<List<tBook>> GetAllBooks()
+        public async Task<List<Books>> GetAllBooks()
         {
             return await Task.Run(() => _bookSrv.GetBookList());
         }
@@ -88,19 +88,19 @@ namespace Logic.Facades
         public void SellBook(int bookId, int clientId)
         {
             var book = _bookSrv.GetBook(bookId);
-            var isLast = book.Amount == 1;
+            var isLast = book.amount == 1;
 
             if (!isLast)
             {
-                _bookSrv.UpdateBook(new tBook
+                _bookSrv.UpdateBook(new Books
                 {
-                    Amount = book.Amount - 1,
-                    Author = book.Author,
-                    Id = book.Id,
+                    amount = book.amount - 1,
+                    b_author = book.b_author,
+                    id = book.id,
                     isNew = book.isNew,
-                    Name = book.Name,
-                    Price = book.Price,
-                    Supplier = book.Supplier
+                    b_name = book.b_name,
+                    price = book.price,
+                    supplierID = book.supplierID
                 });
             }
             else
@@ -108,13 +108,13 @@ namespace Logic.Facades
                 _bookSrv.DeleteBook(bookId);
             }
 
-            _eventSrv.RegisterEvent(new tBookSoldEvent
+            _eventSrv.RegisterEvent(new Events
             {
-                EventTime = DateTime.Now,
-                AccountBalance = _eventSrv.GetAccountBalance() + book.Price,
-                Book = book,
-                Id = _eventSrv.GetLastId() + 1,
-                Client = _clientSrv.GetClient(clientId)
+                event_time = DateTime.Now,
+                account_balance = _eventSrv.GetAccountBalance() + book.price,
+                book_id = book.id,
+                id = _eventSrv.GetLastId() + 1,
+                client_id = _clientSrv.GetClient(clientId).id
             });
         }
 
@@ -122,7 +122,7 @@ namespace Logic.Facades
         {
             foreach(var book in _bookSrv.GetBookList())
             {
-                Console.WriteLine("Title: " + book.Name + " | Price: " + book.Price + " | Amount: " + book.Amount);
+                Console.WriteLine("Title: " + book.b_name + " | Price: " + book.price + " | Amount: " + book.amount);
             }
         }
 

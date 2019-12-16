@@ -1,4 +1,5 @@
-﻿using Data.DataModels;
+﻿using Data;
+using Data.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace Logic.Interfaces
     {
         void GenerateShopRaport();
         void SellBook(int bookId, int clientId);
-        void BuyBook(tBook book);
+        void BuyBook(Books book);
         void ShowBooksOfSupplier(string supplierName);
         void ShowAvailibleBooks();
-        Task<List<tBook>> GetAllBooks();
+        Task<List<Books>> GetAllBooks();
     }
 }

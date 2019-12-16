@@ -13,6 +13,7 @@ using Logic.Interfaces;
 using Logic.Facades;
 using Presentation.ViewModels;
 using Tests;
+using Data;
 
 namespace Presentation
 {
@@ -32,6 +33,8 @@ namespace Presentation
             kernel.Bind<IEventSrv>().To<EventSrv>();
 
             kernel.Bind<IFiller>().To<StaticFiller>();
+
+            kernel.Bind<DBContextDataContext>().ToSelf();
 
             var mainViewModel = kernel.Get<MainViewModel>();
 
