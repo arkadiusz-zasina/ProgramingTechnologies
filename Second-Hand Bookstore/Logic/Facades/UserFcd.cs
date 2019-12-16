@@ -85,37 +85,29 @@ namespace Logic.Facades
             return await Task.Run(() => _bookSrv.GetBookList());
         }
 
-        public void SellBook(int bookId, int clientId)
+        public async Task SellBook(int bookId, int clientId)
         {
             var book = _bookSrv.GetBook(bookId);
-            var isLast = book.amount == 1;
 
-            if (!isLast)
+            await Task.Run(() => _bookSrv.UpdateBook(new Books
             {
-                _bookSrv.UpdateBook(new Books
-                {
-                    amount = book.amount - 1,
-                    b_author = book.b_author,
-                    id = book.id,
-                    isNew = book.isNew,
-                    b_name = book.b_name,
-                    price = book.price,
-                    supplierID = book.supplierID
-                });
-            }
-            else
-            {
-                _bookSrv.DeleteBook(bookId);
-            }
+                amount = book.amount - 1,
+                b_author = book.b_author,
+                id = book.id,
+                isNew = book.isNew,
+                b_name = book.b_name,
+                price = book.price,
+                supplierID = book.supplierID
+            }));
 
-            _eventSrv.RegisterEvent(new Events
+            await Task.Run(() => _eventSrv.RegisterEvent(new Events
             {
                 event_time = DateTime.Now,
                 account_balance = _eventSrv.GetAccountBalance() + book.price,
                 book_id = book.id,
                 id = _eventSrv.GetLastId() + 1,
                 client_id = _clientSrv.GetClient(clientId).id
-            });
+            }));
         }
 
         public void ShowAvailibleBooks()

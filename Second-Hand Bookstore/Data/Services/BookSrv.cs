@@ -66,6 +66,7 @@ namespace Data.Services
                 b.isNew = book.isNew;
                 b.supplierID = book.supplierID;
             }
+            datacontext.SubmitChanges();
         }
 
         public IEnumerable<Books> GetBooksByString(string searched)

@@ -19,8 +19,15 @@ namespace Presentation.ViewModels
         {
             _userFcd = userFcd;
             this.RefreshBooks();
-            this.SellBook = new RelayCommand(sellBook, () => currentClient != null && currentBook != null && currentBook.Amount > 0) ;
+            this.SellBook = new RelayCommand(sellBook, () => CurrentClient != null && CurrentBook != null && CurrentBook.Amount > 0) ;
             this.GetAccountBalance();
+            this.CurrentClient = new Client
+            {
+                creationDate = DateTime.Now,
+                c_name = "Jan",
+                c_surname = "Kowalskii",
+                id = 2
+            };
         }
 
         private async void RefreshBooks()
@@ -91,6 +98,7 @@ namespace Presentation.ViewModels
             {
                 this.currentBook = value;
                 this.OnPropertyChanged("CurrentBook");
+                this.SellBook.RaiseCanExecuteChanged();
             }
         }
 
@@ -131,7 +139,10 @@ namespace Presentation.ViewModels
             int bookId = currentBook.Id;
             int clientId = currentClient.id;
             await _userFcd.SellBook(bookId, clientId);
-            searchBooks(searchString);
+            if (SearchString != null)
+                searchBooks(SearchString);
+            else
+                RefreshBooks();
             GetAccountBalance();
         }
 
