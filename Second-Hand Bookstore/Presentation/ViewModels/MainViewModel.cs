@@ -21,10 +21,23 @@ namespace Presentation.ViewModels
             _userFcd = userFcd;
             this.RefreshBooks();
             this.searchClients("");
-            this.SellBook = new RelayCommand(sellBook, () => CurrentClient != null && CurrentBook != null && CurrentBook.Amount > 0);
             this.OpenEdit = new RelayCommand(openEdit, () => (CurrentBook != null && isLastClickedBook) || (CurrentClient != null && !isLastClickedBook));
             this.GetAccountBalance();
             this.RegisterClient = new RelayCommand(registerClient, () => clientToBeCreated.c_name.Any() && clientToBeCreated.c_surname.Any());        
+            this.SellBook = new RelayCommand(sellBook, 
+                () => CurrentClient != null 
+                && CurrentBook != null 
+                && CurrentBook.Amount > 0) ;
+            this.RegisterClient = new RelayCommand(registerClient, 
+                () => clientToBeCreated.c_name.Length > 0 
+                && clientToBeCreated.c_surname.Length > 0);
+            this.AddBook = new RelayCommand(addBook, 
+                () => bookToBeCreated.Name.Length > 0 
+                && bookToBeCreated.Author.Length > 0 
+                && bookToBeCreated.Amount > 0
+                && bookToBeCreated.Price > 0
+                && bookToBeCreated.SupplierID > 0);
+            this.GetListOfEvents = new RelayCommand(getListOfEvents);
         }
 
         private async void RefreshBooks()
@@ -115,6 +128,20 @@ namespace Presentation.ViewModels
             }
         }
 
+        private IEnumerable<Event> events;
+        private IEnumerable<Event> Events
+        {
+            get
+            {
+                return this.events;
+            }
+            set
+            {
+                this.events = value;
+                this.OnPropertyChanged("Events");
+            }
+        }
+
         private Book currentBook;
         public Book CurrentBook
         {
@@ -129,6 +156,20 @@ namespace Presentation.ViewModels
                 this.SellBook.RaiseCanExecuteChanged();
                 this.OpenEdit.RaiseCanExecuteChanged();
                 isLastClickedBook = true;
+            }
+        }
+
+        private Book bookToBeCreated;
+        public Book BookToBeCreated
+        {
+            get
+            {
+                return this.bookToBeCreated;
+            }
+            set
+            {
+                this.bookToBeCreated = value;
+                this.OnPropertyChanged("BookToBeCreated");
             }
         }
 
@@ -220,6 +261,37 @@ namespace Presentation.ViewModels
         }
 
         public RelayCommand RegisterClient { get; set; }
+
+        public async void addBook()
+        {
+            await _userFcd.AddBook(new Data.Books
+            {
+                b_name = bookToBeCreated.Name,
+                b_author = bookToBeCreated.Author,
+                amount = bookToBeCreated.Amount,
+                price = bookToBeCreated.Price,
+                isNew = bookToBeCreated.isNew,
+                supplierID = bookToBeCreated.SupplierID
+            });
+        }
+
+        public RelayCommand AddBook { get; set; }
+
+        public async void getListOfEvents()
+        {
+            var result = await _userFcd.GetListOfEvents();
+            this.Events = result.Select(x => new Event
+            {
+                account_balance = (float)x.account_balance,
+                bookId = (int)x.book_id,
+                supplierId = (int)x.supplier_id,
+                clientId = (int)x.client_id,
+                event_time = (DateTime)x.event_time,
+                id = x.id
+            });
+        }
+
+        public RelayCommand GetListOfEvents { get; set; }
 
         public void openEdit()
         {

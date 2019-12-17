@@ -11,7 +11,6 @@ namespace Data.Interfaces
     {
         void RegisterEvent(Events _event);
         List<Events> GetListOfEvents();
-
         float GetAccountBalance();
         int GetLastId();
     }
