@@ -58,12 +58,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EditClientWindow.xaml.cs">
+      <DependentUpon>EditClientWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditBookWindow.xaml.cs">
+      <DependentUpon>EditBookWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
+    <Page Include="EditClientWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="EditBookWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

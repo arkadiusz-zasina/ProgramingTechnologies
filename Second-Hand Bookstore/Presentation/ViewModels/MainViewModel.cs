@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Presentation.ViewModels
 {
@@ -19,7 +20,9 @@ namespace Presentation.ViewModels
         {
             _userFcd = userFcd;
             this.RefreshBooks();
-            this.SellBook = new RelayCommand(sellBook, () => CurrentClient != null && CurrentBook != null && CurrentBook.Amount > 0) ;
+            this.searchClients("");
+            this.SellBook = new RelayCommand(sellBook, () => CurrentClient != null && CurrentBook != null && CurrentBook.Amount > 0);
+            this.OpenEdit = new RelayCommand(openEdit, () => (CurrentBook != null && isLastClickedBook) || (CurrentClient != null && !isLastClickedBook));
             this.GetAccountBalance();
             this.RegisterClient = new RelayCommand(registerClient, () => clientToBeCreated.c_name.Any() && clientToBeCreated.c_surname.Any());        
         }
@@ -37,6 +40,8 @@ namespace Presentation.ViewModels
                 Price = (float)x.price
             });
         }
+
+        private bool isLastClickedBook = true;
 
         private String searchStringBook;
         public String SearchStringBook
@@ -122,6 +127,8 @@ namespace Presentation.ViewModels
                 this.currentBook = value;
                 this.OnPropertyChanged("CurrentBook");
                 this.SellBook.RaiseCanExecuteChanged();
+                this.OpenEdit.RaiseCanExecuteChanged();
+                isLastClickedBook = true;
             }
         }
 
@@ -136,6 +143,9 @@ namespace Presentation.ViewModels
             {
                 this.currentClient = value;
                 this.OnPropertyChanged("CurrentClient");
+                this.SellBook.RaiseCanExecuteChanged();
+                this.OpenEdit.RaiseCanExecuteChanged();
+                isLastClickedBook = false;
             }
         }
 
@@ -189,11 +199,12 @@ namespace Presentation.ViewModels
             int bookId = currentBook.Id;
             int clientId = currentClient.id;
             await _userFcd.SellBook(bookId, clientId);
-            if (SearchString != null)
+            if (SearchStringBook != null)
                 searchBooks(SearchStringBook);
             else
                 RefreshBooks();
             GetAccountBalance();
+            MessageBox.Show("Book sold successfully.", "Book sold", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public RelayCommand SellBook { get; set; }
@@ -209,6 +220,23 @@ namespace Presentation.ViewModels
         }
 
         public RelayCommand RegisterClient { get; set; }
+
+        public void openEdit()
+        {
+            if (isLastClickedBook)
+            {
+                EditBookWindow window = new EditBookWindow();
+                window.DataContext = this;
+                window.Show();
+            }
+            else
+            {
+                EditClientWindow window = new EditClientWindow();
+                window.DataContext = this;
+                window.Show();
+            }
+        }
+        public RelayCommand OpenEdit { get; set; }
 
         private void OnPropertyChanged(string propertyName)
         {
