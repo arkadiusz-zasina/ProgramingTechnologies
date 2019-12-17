@@ -160,6 +160,6 @@ namespace Logic.Facades
 
         public async Task<List<Events>> GetListOfEvents()
             => await Task.Run(() => _eventSrv.GetListOfEvents());
-        
+
     }
 }

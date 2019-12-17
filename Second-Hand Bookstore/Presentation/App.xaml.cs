@@ -32,6 +32,10 @@ namespace Presentation
             kernel.Bind<IClientSrv>().To<ClientSrv>();
             kernel.Bind<IEventSrv>().To<EventSrv>();
 
+            kernel.Bind<IEditBookWindow>().To<EditBookWindow>();
+            kernel.Bind<IEditClientWindow>().To<EditClientWindow>();
+            kernel.Bind<IAddClientWindow>().To<AddClientWindow>();
+
             kernel.Bind<IFiller>().To<StaticFiller>();
 
             kernel.Bind<DBContextDataContext>().ToSelf();

@@ -41,6 +41,6 @@
 
         <CheckBox IsChecked="{Binding CurrentBook.isNew, Mode=TwoWay}" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center"/>
 
-        <Button Grid.Column="2" Grid.Row="7" Margin="5">Save</Button>
+        <Button Command="{Binding EditBook}" Grid.Column="2" Grid.Row="7" Margin="5" >Save</Button>
     </Grid>
 </Window>

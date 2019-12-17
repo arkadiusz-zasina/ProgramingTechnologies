@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Presentation
 {
     /// <summary>
-    /// Logika interakcji dla klasy EditBookWindow.xaml
+    /// Logika interakcji dla klasy AddClientWindow.xaml
     /// </summary>
-    public partial class EditBookWindow : Window, IEditBookWindow
+    public partial class AddClientWindow : Window, IAddClientWindow
     {
-        public EditBookWindow()
+        public AddClientWindow()
         {
             InitializeComponent();
             Closing += OnWindowClosing;

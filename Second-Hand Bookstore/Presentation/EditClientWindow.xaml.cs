@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +18,17 @@ namespace Presentation
     /// <summary>
     /// Logika interakcji dla klasy EditBookWindow.xaml
     /// </summary>
-    public partial class EditClientWindow : Window
+    public partial class EditClientWindow : Window, IEditClientWindow
     {
         public EditClientWindow()
         {
             InitializeComponent();
+            Closing += OnWindowClosing;
+        }
+        private void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Visibility = Visibility.Hidden;
         }
     }
 }

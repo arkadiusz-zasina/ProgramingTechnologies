@@ -12,5 +12,5 @@ namespace Presentation.Models
         public String c_name { get; set; }
         public String c_surname { get; set; }
         public DateTime creationDate{ get; set; }
-}
+    }
 }
