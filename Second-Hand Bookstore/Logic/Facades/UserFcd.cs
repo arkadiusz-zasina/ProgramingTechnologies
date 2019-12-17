@@ -169,5 +169,9 @@ namespace Logic.Facades
 
         public async Task DeleteClient(int id)
             => await Task.Run(() => _clientSrv.DeleteClient(id));
+
+        public async Task<List<Events>> GetListOfEvents()
+            => await Task.Run(() => _eventSrv.GetListOfEvents());
+        
     }
 }

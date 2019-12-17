@@ -28,5 +28,6 @@ namespace Logic.Interfaces
         Task<Clients> GetClient(int id);
         Task UpdateClient(Clients client);
         Task DeleteClient(int id);
+        Task<List<Events>> GetListOfEvents();
     }
 }

@@ -31,8 +31,8 @@ namespace Presentation.ViewModels
                 && bookToBeCreated.Author.Length > 0 
                 && bookToBeCreated.Amount > 0
                 && bookToBeCreated.Price > 0
-                && bookToBeCreated.SupplierID > 0
-                );
+                && bookToBeCreated.SupplierID > 0);
+            this.GetListOfEvents = new RelayCommand(getListOfEvents);
         }
 
         private async void RefreshBooks()
@@ -119,6 +119,20 @@ namespace Presentation.ViewModels
             {
                 this.clients = value;
                 this.OnPropertyChanged("Clients");
+            }
+        }
+
+        private IEnumerable<Event> events;
+        private IEnumerable<Event> Events
+        {
+            get
+            {
+                return this.events;
+            }
+            set
+            {
+                this.events = value;
+                this.OnPropertyChanged("Events");
             }
         }
 
@@ -246,6 +260,22 @@ namespace Presentation.ViewModels
         }
 
         public RelayCommand AddBook { get; set; }
+
+        public async void getListOfEvents()
+        {
+            var result = await _userFcd.GetListOfEvents();
+            this.Events = result.Select(x => new Event
+            {
+                account_balance = (float)x.account_balance,
+                bookId = (int)x.book_id,
+                supplierId = (int)x.supplier_id,
+                clientId = (int)x.client_id,
+                event_time = (DateTime)x.event_time,
+                id = x.id
+            });
+        }
+
+        public RelayCommand GetListOfEvents { get; set; }
 
         private void OnPropertyChanged(string propertyName)
         {
