@@ -18,23 +18,27 @@ namespace Presentation.ViewModels
         private IEditBookWindow editBookWindow;
         private IEditClientWindow editClientWindow;
         private IAddClientWindow addClientWindow;
+        private IEventLogsWindow eventLogsWindow;
 
-        public MainViewModel(IUserFcd userFcd, IEditClientWindow _editClientWindow, IEditBookWindow _editBookWindow, IAddClientWindow _addClientWindow)
+        public MainViewModel(IUserFcd userFcd, IEditClientWindow _editClientWindow, IEditBookWindow _editBookWindow, IAddClientWindow _addClientWindow, IEventLogsWindow _eventLogsWindow)
         {
             _userFcd = userFcd;
             editBookWindow = _editBookWindow;
             editClientWindow = _editClientWindow;
             addClientWindow = _addClientWindow;
+            eventLogsWindow = _eventLogsWindow;
 
             editBookWindow.DataContext = this;
             editClientWindow.DataContext = this;
             addClientWindow.DataContext = this;
+            eventLogsWindow.DataContext = this;
 
             clientToBeCreated = new Client { c_name = "", c_surname = "" };
 
             this.RefreshBooks();
             this.searchClients("");
             this.OpenAddClient = new RelayCommand(openAddClient);
+            this.OpenLogs = new RelayCommand(openLogs);
             this.OpenEdit = new RelayCommand(openEdit, () => (CurrentBook != null && isLastClickedBook) || (CurrentClient != null && !isLastClickedBook));
             this.GetAccountBalance();
             this.RegisterClient = new RelayCommand(registerClient, () => clientToBeCreated.c_name.Any() && clientToBeCreated.c_surname.Any());        
@@ -361,11 +365,11 @@ namespace Presentation.ViewModels
             var result = await _userFcd.GetListOfEvents();
             this.Events = result.Select(x => new Event
             {
-                account_balance = (float)x.account_balance,
-                bookId = (int)x.book_id,
-                supplierId = (int)x.supplier_id,
-                clientId = (int)x.client_id,
-                event_time = (DateTime)x.event_time,
+                account_balance = (float)x.account_balance.Value,
+                bookName = x.Books != null ? x.Books.b_name : "",
+                clientName = x.Clients != null ? x.Clients.c_name + " " + x.Clients.c_surname : "",
+                supplierName = x.Suppliers != null ? x.Suppliers.s_name : "",
+                event_time = x.event_time.Value,
                 id = x.id
             });
         }
@@ -390,6 +394,13 @@ namespace Presentation.ViewModels
             addClientWindow.Show();
         }
         public RelayCommand OpenAddClient { get; set; }
+
+        public void openLogs()
+        {
+            getListOfEvents();
+            eventLogsWindow.Show();
+        }
+        public RelayCommand OpenLogs { get; set; }
 
 
         private void OnPropertyChanged(string propertyName)

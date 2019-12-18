@@ -26,10 +26,22 @@ namespace Data.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=2a01:116f:53f:9b00::f551\\SQLEXPRESS;Initial Catalog=BookstoreDB;Integrated Security=False;User Id=admin;Password=adminpassword1")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source83.29.107.71\\SQLEXPRESS,1433;Initial Catalog=BookstoreDB;Integrated Security" +
+            "=False;User Id=admin;Password=adminpassword1")]
         public string BookstoreDBConnectionString {
             get {
                 return ((string)(this["BookstoreDBConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=83.29.107.71\\SQLEXPRESS,1433;Initial Catalog=BookstoreDB;User " +
+            "ID=admin;Password=adminpassword1")]
+        public string BookstoreDBConnectionString1 {
+            get {
+                return ((string)(this["BookstoreDBConnectionString1"]));
             }
         }
     }

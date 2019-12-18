@@ -67,9 +67,13 @@
     <Compile Include="EditBookWindow.xaml.cs">
       <DependentUpon>EditBookWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EventLogsWindow.xaml.cs">
+      <DependentUpon>EventLogsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="IAddClientWindow.cs" />
     <Compile Include="IEditBookWindow.cs" />
     <Compile Include="IEditClientWindow.cs" />
+    <Compile Include="IEventLogsWindow.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Event.cs" />
@@ -85,6 +89,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="EditBookWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EventLogsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
