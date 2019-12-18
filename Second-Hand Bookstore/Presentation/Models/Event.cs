@@ -11,8 +11,8 @@ namespace Presentation.Models
         public int id { get; set; }
         public float account_balance { get; set; }
         public DateTime event_time { get; set; }
-        public int bookId { get; set; }
-        public int clientId { get; set; }
-        public int supplierId { get; set; }
+        public string bookName { get; set; }
+        public string supplierName { get; set; }
+        public string clientName { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace Data
     #endregion
 		
 		public DBContextDataContext() : 
-				base(global::Data.Properties.Settings.Default.BookstoreDBConnectionString, mappingSource)
+				base(global::Data.Properties.Settings.Default.BookstoreDBConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
@@ -113,8 +113,6 @@ namespace Data
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _id;
-		
 		private string _b_name;
 		
 		private string _b_author;
@@ -127,6 +125,8 @@ namespace Data
 		
 		private System.Nullable<int> _supplierID;
 		
+		private int _id;
+		
 		private EntitySet<Events> _Events;
 		
 		private EntityRef<Suppliers> _Suppliers;
@@ -135,8 +135,6 @@ namespace Data
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
     partial void Onb_nameChanging(string value);
     partial void Onb_nameChanged();
     partial void Onb_authorChanging(string value);
@@ -149,6 +147,8 @@ namespace Data
     partial void OnisNewChanged();
     partial void OnsupplierIDChanging(System.Nullable<int> value);
     partial void OnsupplierIDChanged();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
     #endregion
 		
 		public Books()
@@ -156,26 +156,6 @@ namespace Data
 			this._Events = new EntitySet<Events>(new Action<Events>(this.attach_Events), new Action<Events>(this.detach_Events));
 			this._Suppliers = default(EntityRef<Suppliers>);
 			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_b_name", DbType="VarChar(255)")]
@@ -302,6 +282,26 @@ namespace Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Books_Events", Storage="_Events", ThisKey="id", OtherKey="book_id")]
 		public EntitySet<Events> Events
 		{
@@ -388,11 +388,11 @@ namespace Data
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _id;
-		
 		private string _s_name;
 		
 		private string _nip;
+		
+		private int _id;
 		
 		private EntitySet<Books> _Books;
 		
@@ -402,12 +402,12 @@ namespace Data
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
     partial void Ons_nameChanging(string value);
     partial void Ons_nameChanged();
     partial void OnnipChanging(string value);
     partial void OnnipChanged();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
     #endregion
 		
 		public Suppliers()
@@ -415,26 +415,6 @@ namespace Data
 			this._Books = new EntitySet<Books>(new Action<Books>(this.attach_Books), new Action<Books>(this.detach_Books));
 			this._Events = new EntitySet<Events>(new Action<Events>(this.attach_Events), new Action<Events>(this.detach_Events));
 			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_s_name", DbType="VarChar(255)")]
@@ -473,6 +453,26 @@ namespace Data
 					this._nip = value;
 					this.SendPropertyChanged("nip");
 					this.OnnipChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
 				}
 			}
 		}
@@ -554,13 +554,13 @@ namespace Data
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _id;
-		
 		private string _c_name;
 		
 		private string _c_surname;
 		
 		private System.Nullable<System.DateTime> _creation_date;
+		
+		private int _id;
 		
 		private EntitySet<Events> _Events;
 		
@@ -568,40 +568,20 @@ namespace Data
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
     partial void Onc_nameChanging(string value);
     partial void Onc_nameChanged();
     partial void Onc_surnameChanging(string value);
     partial void Onc_surnameChanged();
     partial void Oncreation_dateChanging(System.Nullable<System.DateTime> value);
     partial void Oncreation_dateChanged();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
     #endregion
 		
 		public Clients()
 		{
 			this._Events = new EntitySet<Events>(new Action<Events>(this.attach_Events), new Action<Events>(this.detach_Events));
 			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_c_name", DbType="VarChar(255)")]
@@ -664,6 +644,26 @@ namespace Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Clients_Events", Storage="_Events", ThisKey="id", OtherKey="client_id")]
 		public EntitySet<Events> Events
 		{
@@ -716,8 +716,6 @@ namespace Data
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _id;
-		
 		private System.Nullable<double> _account_balance;
 		
 		private System.Nullable<System.DateTime> _event_time;
@@ -727,6 +725,8 @@ namespace Data
 		private System.Nullable<int> _client_id;
 		
 		private System.Nullable<int> _supplier_id;
+		
+		private int _id;
 		
 		private EntityRef<Books> _Books;
 		
@@ -738,8 +738,6 @@ namespace Data
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
     partial void Onaccount_balanceChanging(System.Nullable<double> value);
     partial void Onaccount_balanceChanged();
     partial void Onevent_timeChanging(System.Nullable<System.DateTime> value);
@@ -750,6 +748,8 @@ namespace Data
     partial void Onclient_idChanged();
     partial void Onsupplier_idChanging(System.Nullable<int> value);
     partial void Onsupplier_idChanged();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
     #endregion
 		
 		public Events()
@@ -758,26 +758,6 @@ namespace Data
 			this._Clients = default(EntityRef<Clients>);
 			this._Suppliers = default(EntityRef<Suppliers>);
 			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_account_balance", DbType="Float")]
@@ -888,6 +868,26 @@ namespace Data
 					this._supplier_id = value;
 					this.SendPropertyChanged("supplier_id");
 					this.Onsupplier_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
 				}
 			}
 		}
