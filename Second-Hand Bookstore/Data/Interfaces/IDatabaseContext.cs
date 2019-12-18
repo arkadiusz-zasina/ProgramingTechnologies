@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.DataModels
+namespace Data.Interfaces
 {
-    public class BooksCollection
+    interface IDatabaseContext
     {
-        public tBook[] data { get; set; }
     }
 }
-
-

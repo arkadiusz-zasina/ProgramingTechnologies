@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Data.DataContext;
-using Data.DataModels;
 using Data.Interfaces;
 
 namespace Data.Services
@@ -12,13 +10,9 @@ namespace Data.Services
     public class BookSrv : IBookSrv
     {
         private DBContextDataContext datacontext;
-        IEventSrv _eventSrv;
-        IClientSrv _clientSrv;
-        public BookSrv(DBContextDataContext datacontext, IEventSrv _eventSrv, IClientSrv _clientSrv)
+        public BookSrv(DBContextDataContext datacontext)
         {
             this.datacontext = datacontext;
-            this._eventSrv = _eventSrv;
-            this._clientSrv = _clientSrv;
         }
 
         public void CreateBook(Books book)

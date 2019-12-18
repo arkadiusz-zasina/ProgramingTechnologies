@@ -67,15 +67,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataContext\DataContext.cs" />
-    <Compile Include="DataModels\BooksCollection.cs" />
-    <Compile Include="DataModels\DataContainer.cs" />
-    <Compile Include="DataModels\tBook.cs" />
-    <Compile Include="DataModels\tBookBoughtEvent.cs" />
-    <Compile Include="DataModels\tBookSoldEvent.cs" />
-    <Compile Include="DataModels\tClient.cs" />
-    <Compile Include="DataModels\tEvent.cs" />
-    <Compile Include="DataModels\tSupplier.cs" />
     <Compile Include="DBContext.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -83,6 +74,7 @@
     </Compile>
     <Compile Include="Interfaces\IBookSrv.cs" />
     <Compile Include="Interfaces\IClientSrv.cs" />
+    <Compile Include="Interfaces\IDatabaseContext.cs" />
     <Compile Include="Interfaces\IEventSrv.cs" />
     <Compile Include="Interfaces\IFiller.cs" />
     <Compile Include="Interfaces\ISupplierSrv.cs" />
