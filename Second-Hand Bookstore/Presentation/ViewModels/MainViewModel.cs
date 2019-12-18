@@ -161,7 +161,7 @@ namespace Presentation.ViewModels
         }
 
         private IEnumerable<Event> events;
-        private IEnumerable<Event> Events
+        public IEnumerable<Event> Events
         {
             get
             {

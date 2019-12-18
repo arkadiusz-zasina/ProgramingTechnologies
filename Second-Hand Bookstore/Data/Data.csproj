@@ -72,9 +72,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBContext.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IDBContextDataContext.cs" />
     <Compile Include="Interfaces\IBookSrv.cs" />
     <Compile Include="Interfaces\IClientSrv.cs" />
-    <Compile Include="Interfaces\IDatabaseContext.cs" />
     <Compile Include="Interfaces\IEventSrv.cs" />
     <Compile Include="Interfaces\IFiller.cs" />
     <Compile Include="Interfaces\ISupplierSrv.cs" />

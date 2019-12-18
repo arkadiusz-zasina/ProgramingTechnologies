@@ -20,60 +20,60 @@ namespace Data
 	using System.Linq.Expressions;
 	using System.ComponentModel;
 	using System;
-	
-	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="BookstoreDB")]
-	public partial class DBContextDataContext : System.Data.Linq.DataContext
+
+
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name = "BookstoreDB")]
+	public partial class DBContextDataContext : System.Data.Linq.DataContext, IDBContextDataContext
 	{
-		
+
 		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
-		
-    #region Extensibility Method Definitions
-    partial void OnCreated();
-    partial void InsertBooks(Books instance);
-    partial void UpdateBooks(Books instance);
-    partial void DeleteBooks(Books instance);
-    partial void InsertSuppliers(Suppliers instance);
-    partial void UpdateSuppliers(Suppliers instance);
-    partial void DeleteSuppliers(Suppliers instance);
-    partial void InsertClients(Clients instance);
-    partial void UpdateClients(Clients instance);
-    partial void DeleteClients(Clients instance);
-    partial void InsertEvents(Events instance);
-    partial void UpdateEvents(Events instance);
-    partial void DeleteEvents(Events instance);
-    #endregion
-		
-		public DBContextDataContext() : 
+
+		#region Extensibility Method Definitions
+		partial void OnCreated();
+		partial void InsertBooks(Books instance);
+		partial void UpdateBooks(Books instance);
+		partial void DeleteBooks(Books instance);
+		partial void InsertSuppliers(Suppliers instance);
+		partial void UpdateSuppliers(Suppliers instance);
+		partial void DeleteSuppliers(Suppliers instance);
+		partial void InsertClients(Clients instance);
+		partial void UpdateClients(Clients instance);
+		partial void DeleteClients(Clients instance);
+		partial void InsertEvents(Events instance);
+		partial void UpdateEvents(Events instance);
+		partial void DeleteEvents(Events instance);
+		#endregion
+
+		public DBContextDataContext() :
 				base(global::Data.Properties.Settings.Default.BookstoreDBConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
-		
-		public DBContextDataContext(string connection) : 
+
+		public DBContextDataContext(string connection) :
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-		
-		public DBContextDataContext(System.Data.IDbConnection connection) : 
+
+		public DBContextDataContext(System.Data.IDbConnection connection) :
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-		
-		public DBContextDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+
+		public DBContextDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-		
-		public DBContextDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+
+		public DBContextDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-		
+
 		public System.Data.Linq.Table<Books> Books
 		{
 			get
@@ -81,7 +81,7 @@ namespace Data
 				return this.GetTable<Books>();
 			}
 		}
-		
+
 		public System.Data.Linq.Table<Suppliers> Suppliers
 		{
 			get
@@ -89,7 +89,7 @@ namespace Data
 				return this.GetTable<Suppliers>();
 			}
 		}
-		
+
 		public System.Data.Linq.Table<Clients> Clients
 		{
 			get
@@ -97,7 +97,7 @@ namespace Data
 				return this.GetTable<Clients>();
 			}
 		}
-		
+
 		public System.Data.Linq.Table<Events> Events
 		{
 			get
@@ -106,7 +106,7 @@ namespace Data
 			}
 		}
 	}
-	
+
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Books")]
 	public partial class Books : INotifyPropertyChanging, INotifyPropertyChanged
 	{

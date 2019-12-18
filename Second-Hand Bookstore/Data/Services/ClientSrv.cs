@@ -9,9 +9,9 @@ namespace Data.Services
 {
     public class ClientSrv : IClientSrv
     {
-        private DBContextDataContext datacontext;
+        private IDBContextDataContext datacontext;
 
-        public ClientSrv(DBContextDataContext datacontext)
+        public ClientSrv(IDBContextDataContext datacontext)
         {
             this.datacontext = datacontext;
         }

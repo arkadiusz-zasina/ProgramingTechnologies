@@ -9,8 +9,8 @@ namespace Data.Services
 {
     public class BookSrv : IBookSrv
     {
-        private DBContextDataContext datacontext;
-        public BookSrv(DBContextDataContext datacontext)
+        private IDBContextDataContext datacontext;
+        public BookSrv(IDBContextDataContext datacontext)
         {
             this.datacontext = datacontext;
         }

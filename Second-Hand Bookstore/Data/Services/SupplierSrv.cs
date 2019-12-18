@@ -10,9 +10,9 @@ namespace Data.Services
 {
     public class SupplierSrv : ISupplierSrv
     {
-        private DBContextDataContext datacontext;
+        private IDBContextDataContext datacontext;
 
-        public SupplierSrv(DBContextDataContext datacontext)
+        public SupplierSrv(IDBContextDataContext datacontext)
         {
             this.datacontext = datacontext;
         }

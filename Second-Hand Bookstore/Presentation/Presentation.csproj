@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -144,10 +145,6 @@
     <ProjectReference Include="..\Logic\Logic.csproj">
       <Project>{45558FD8-09C4-49DA-96FE-F5628687225D}</Project>
       <Name>Logic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tests\Tests.csproj">
-      <Project>{ACE7AB5A-2A95-44B6-8371-5D0512351147}</Project>
-      <Name>Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

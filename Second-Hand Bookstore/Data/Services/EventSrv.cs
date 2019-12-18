@@ -9,9 +9,9 @@ namespace Data.Services
 {
     public class EventSrv : IEventSrv
     {
-        private DBContextDataContext datacontext;
+        private IDBContextDataContext datacontext;
 
-        public EventSrv(DBContextDataContext datacontext)
+        public EventSrv(IDBContextDataContext datacontext)
         {
             this.datacontext = datacontext;
         }
