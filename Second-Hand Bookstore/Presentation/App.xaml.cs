@@ -36,6 +36,7 @@ namespace Presentation
             kernel.Bind<IEditClientWindow>().To<EditClientWindow>();
             kernel.Bind<IAddClientWindow>().To<AddClientWindow>();
             kernel.Bind<IEventLogsWindow>().To<EventLogsWindow>();
+            kernel.Bind<IAddBookWindow>().To<AddBookWindow>();
 
             kernel.Bind<IFiller>().To<StaticFiller>();
 

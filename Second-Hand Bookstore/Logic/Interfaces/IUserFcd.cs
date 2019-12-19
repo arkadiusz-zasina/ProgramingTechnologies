@@ -12,7 +12,7 @@ namespace Logic.Interfaces
     {
         void GenerateShopRaport();
         Task SellBook(int bookId, int clientId);
-        void BuyBook(Books book);
+        Task BuyBook(Books book);
         void ShowBooksOfSupplier(string supplierName);
         void ShowAvailibleBooks();
         Task<List<Books>> GetAllBooks();
@@ -29,5 +29,6 @@ namespace Logic.Interfaces
         Task UpdateClient(Clients client);
         Task DeleteClient(int id);
         Task<List<Events>> GetListOfEvents();
+        Task<List<Suppliers>> GetListOfSuppliers();
     }
 }

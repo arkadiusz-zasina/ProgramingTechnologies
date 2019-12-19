@@ -14,6 +14,6 @@ namespace Presentation.Models
         public float Price { get; set; }
         public int Amount { get; set; }
         public Boolean isNew { get; set; }
-        public int SupplierID { get; set; }
+        public Supplier Supplier { get; set; }
     }
 }

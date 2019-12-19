@@ -18,8 +18,10 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <DataGrid Grid.Row="1" Grid.Column="1" AutoGenerateColumns="True"
+        <DataGrid Grid.Row="1" Grid.Column="1"
                   ItemsSource="{Binding Path=Events}"
-                  IsReadOnly="True"/>
+                  AutoGenerateColumns="True"
+                  IsReadOnly="True">
+        </DataGrid>
     </Grid>
 </Window>

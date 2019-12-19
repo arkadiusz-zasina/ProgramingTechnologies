@@ -19,25 +19,30 @@ namespace Presentation.ViewModels
         private IEditClientWindow editClientWindow;
         private IAddClientWindow addClientWindow;
         private IEventLogsWindow eventLogsWindow;
+        private IAddBookWindow addBookWindow;
 
-        public MainViewModel(IUserFcd userFcd, IEditClientWindow _editClientWindow, IEditBookWindow _editBookWindow, IAddClientWindow _addClientWindow, IEventLogsWindow _eventLogsWindow)
+        public MainViewModel(IUserFcd userFcd, IEditClientWindow _editClientWindow, IEditBookWindow _editBookWindow, IAddClientWindow _addClientWindow, IEventLogsWindow _eventLogsWindow, IAddBookWindow _addBookWindow)
         {
             _userFcd = userFcd;
             editBookWindow = _editBookWindow;
             editClientWindow = _editClientWindow;
             addClientWindow = _addClientWindow;
             eventLogsWindow = _eventLogsWindow;
+            addBookWindow = _addBookWindow;
 
             editBookWindow.DataContext = this;
             editClientWindow.DataContext = this;
             addClientWindow.DataContext = this;
             eventLogsWindow.DataContext = this;
+            addBookWindow.DataContext = this;
 
             clientToBeCreated = new Client { c_name = "", c_surname = "" };
+            bookToBeCreated = new Book { Amount = 1, Author = "", isNew = true, Name = "", Price = 0, Supplier = null };
 
             this.RefreshBooks();
             this.searchClients("");
             this.OpenAddClient = new RelayCommand(openAddClient);
+            this.OpenAddBook = new RelayCommand(openAddBook);
             this.OpenLogs = new RelayCommand(openLogs);
             this.OpenEdit = new RelayCommand(openEdit, () => (CurrentBook != null && isLastClickedBook) || (CurrentClient != null && !isLastClickedBook));
             this.GetAccountBalance();
@@ -49,20 +54,14 @@ namespace Presentation.ViewModels
             this.RegisterClient = new RelayCommand(registerClient, 
                 () => clientToBeCreated.c_name.Length > 0 
                 && clientToBeCreated.c_surname.Length > 0);
-            this.AddBook = new RelayCommand(addBook, 
-                () => bookToBeCreated != null
-                && bookToBeCreated.Name.Length > 0 
-                && bookToBeCreated.Author.Length > 0 
-                && bookToBeCreated.Amount > 0
-                && bookToBeCreated.Price > 0
-                && bookToBeCreated.SupplierID > 0);            
+            this.AddBook = new RelayCommand(addBook);          
             this.EditBook = new RelayCommand(editBook, 
                 () => currentBook != null
                 && currentBook.Name.Length > 0 
                 && currentBook.Author.Length > 0 
                 && currentBook.Amount > 0
                 && currentBook.Price > 0
-                && currentBook.SupplierID > 0);
+                && currentBook.Supplier != null );
             this.EditClient = new RelayCommand(editClient,
                 () => currentClient != null
                 && currentClient.c_name.Length > 0
@@ -82,7 +81,7 @@ namespace Presentation.ViewModels
                 isNew = x.isNew.Value,
                 Name = x.b_name,
                 Price = (float)x.price,
-                SupplierID = x.supplierID.Value
+                Supplier = new Supplier { id = x.Suppliers.id, nip = x.Suppliers.nip, s_name = x.Suppliers.s_name }
             });
         }
 
@@ -103,7 +102,7 @@ namespace Presentation.ViewModels
             }
         }
 
-        public String searchStringClient;
+        private String searchStringClient;
         public String SearchStringClient
         {
             get
@@ -146,6 +145,20 @@ namespace Presentation.ViewModels
             }
         }
 
+        private IEnumerable<Supplier> suppliers;
+        public IEnumerable<Supplier> Suppliers
+        {
+            get
+            {
+                return this.suppliers;
+            }
+            set
+            {
+                this.suppliers = value;
+                this.OnPropertyChanged("Suppliers");
+            }
+        }
+
         private IEnumerable<Client> clients;
         public IEnumerable<Client> Clients
         {
@@ -161,7 +174,7 @@ namespace Presentation.ViewModels
         }
 
         private IEnumerable<Event> events;
-        private IEnumerable<Event> Events
+        public IEnumerable<Event> Events
         {
             get
             {
@@ -249,7 +262,7 @@ namespace Presentation.ViewModels
                 isNew = x.isNew.Value,
                 Name = x.b_name,
                 Price = (float)x.price,
-                SupplierID = x.supplierID.Value
+                Supplier = new Supplier { id = x.Suppliers.id, nip = x.Suppliers.nip, s_name = x.Suppliers.s_name }
             });
         }
 
@@ -300,15 +313,22 @@ namespace Presentation.ViewModels
 
         public async void addBook()
         {
-            await _userFcd.AddBook(new Data.Books
+            await _userFcd.BuyBook(new Data.Books
             {
                 b_name = bookToBeCreated.Name,
                 b_author = bookToBeCreated.Author,
                 amount = bookToBeCreated.Amount,
                 price = bookToBeCreated.Price,
                 isNew = bookToBeCreated.isNew,
-                supplierID = bookToBeCreated.SupplierID
+                supplierID = bookToBeCreated.Supplier.id
             });
+            addBookWindow.Close();
+            if (SearchStringBook == null)
+                searchBooks("");
+            else
+                searchBooks(SearchStringBook);
+            GetAccountBalance();
+            MessageBox.Show("Books bought successfully.", "Book bought", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public RelayCommand AddBook { get; set; }
@@ -339,7 +359,7 @@ namespace Presentation.ViewModels
                 amount = currentBook.Amount,
                 price = currentBook.Price,
                 isNew = currentBook.isNew,
-                supplierID = currentBook.SupplierID
+                supplierID = currentBook.Supplier.id
             });
             editBookWindow.Close();
         }
@@ -374,12 +394,25 @@ namespace Presentation.ViewModels
             });
         }
 
+
         public RelayCommand GetListOfEvents { get; set; }
+
+        public async void getListOfSuppliers()
+        {
+            var result = await _userFcd.GetListOfSuppliers();
+            this.Suppliers = result.Select(x => new Supplier
+            {
+                id = x.id,
+                nip = x.nip,
+                s_name = x.s_name
+            });
+        }
 
         public void openEdit()
         {
             if (isLastClickedBook)
             {
+                getListOfSuppliers();
                 editBookWindow.Show();
             }
             else
@@ -393,7 +426,14 @@ namespace Presentation.ViewModels
         {
             addClientWindow.Show();
         }
-        public RelayCommand OpenAddClient { get; set; }
+        public RelayCommand OpenAddClient { get; set; }        
+        
+        public void openAddBook()
+        {
+            getListOfSuppliers();
+            addBookWindow.Show();
+        }
+        public RelayCommand OpenAddBook { get; set; }
 
         public void openLogs()
         {
@@ -402,7 +442,6 @@ namespace Presentation.ViewModels
         }
         public RelayCommand OpenLogs { get; set; }
 
-
         private void OnPropertyChanged(string propertyName)
         {
             if (this.PropertyChanged != null)
@@ -410,6 +449,7 @@ namespace Presentation.ViewModels
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
 
     }
 }

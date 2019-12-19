@@ -22,14 +22,15 @@ namespace Logic.Facades
             _supplierSrv = supplierSrv;
         }
 
-        public void BuyBook(Books book)
+        public async Task BuyBook(Books book)
         {
-            var bookInDatabase = _bookSrv.GetBook(book.id);
+            var bookInDatabase = await Task.Run(() => _bookSrv.GetBook(book.id));
             var isBought = bookInDatabase != null;
+            int obtainedBookId;
 
             if (isBought)
             {
-                _bookSrv.UpdateBook(new Books
+                await Task.Run(() => _bookSrv.UpdateBook(new Books
                 {
                     amount = bookInDatabase.amount + book.amount,
                     b_author = book.b_author,
@@ -38,11 +39,12 @@ namespace Logic.Facades
                     b_name = book.b_name,
                     price = book.price,
                     supplierID = book.supplierID
-                });
+                }));
+                obtainedBookId = bookInDatabase.id;
             }
             else
             {
-                _bookSrv.CreateBook(new Books
+                var added = new Books
                 {
                     amount = book.amount,
                     b_author = book.b_author,
@@ -51,17 +53,18 @@ namespace Logic.Facades
                     b_name = book.b_name,
                     price = book.price,
                     supplierID = book.supplierID
-                });
+                };
+                await Task.Run(() => _bookSrv.CreateBook(added));
+                obtainedBookId = added.id;
             }
 
-            _eventSrv.RegisterEvent(new Events
+            await Task.Run(() => _eventSrv.RegisterEvent(new Events
             {
                 event_time = DateTime.Now,
                 account_balance = _eventSrv.GetAccountBalance() - (book.price * book.amount),
-                book_id = book.id,
-                id = _eventSrv.GetLastId() + 1,
+                book_id = obtainedBookId,
                 supplier_id = book.supplierID
-            });
+            }));
         }
 
         public void GenerateShopRaport()
@@ -160,6 +163,9 @@ namespace Logic.Facades
 
         public async Task<List<Events>> GetListOfEvents()
             => await Task.Run(() => _eventSrv.GetListOfEvents());
+
+        public async Task<List<Suppliers>> GetListOfSuppliers()
+            => await Task.Run(() => _supplierSrv.GetSupplierList());
 
     }
 }
