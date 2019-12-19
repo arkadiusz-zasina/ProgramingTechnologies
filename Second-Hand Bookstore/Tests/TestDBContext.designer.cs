@@ -22,58 +22,58 @@ namespace Tests
 	using System;
     using Data;
 
-    [global::System.Data.Linq.Mapping.DatabaseAttribute(Name = "BookstoreDB")]
+    [global::System.Data.Linq.Mapping.DatabaseAttribute(Name="BookstoreDB_TEST")]
 	public partial class TestDBContextDataContext : System.Data.Linq.DataContext, IDBContextDataContext
 	{
-
+		
 		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
-
-		#region Extensibility Method Definitions
-		partial void OnCreated();
-		partial void InsertBooks(Books instance);
-		partial void UpdateBooks(Books instance);
-		partial void DeleteBooks(Books instance);
-		partial void InsertSuppliers(Suppliers instance);
-		partial void UpdateSuppliers(Suppliers instance);
-		partial void DeleteSuppliers(Suppliers instance);
-		partial void InsertClients(Clients instance);
-		partial void UpdateClients(Clients instance);
-		partial void DeleteClients(Clients instance);
-		partial void InsertEvents(Events instance);
-		partial void UpdateEvents(Events instance);
-		partial void DeleteEvents(Events instance);
-		#endregion
-
-		public TestDBContextDataContext() :
-				base(global::Tests.Properties.Settings.Default.BookstoreDBConnectionString, mappingSource)
+		
+    #region Extensibility Method Definitions
+    partial void OnCreated();
+    partial void InsertBooks(Books instance);
+    partial void UpdateBooks(Books instance);
+    partial void DeleteBooks(Books instance);
+    partial void InsertSuppliers(Suppliers instance);
+    partial void UpdateSuppliers(Suppliers instance);
+    partial void DeleteSuppliers(Suppliers instance);
+    partial void InsertClients(Clients instance);
+    partial void UpdateClients(Clients instance);
+    partial void DeleteClients(Clients instance);
+    partial void InsertEvents(Events instance);
+    partial void UpdateEvents(Events instance);
+    partial void DeleteEvents(Events instance);
+    #endregion
+		
+		public TestDBContextDataContext() : 
+				base(global::Tests.Properties.Settings.Default.BookstoreDBConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
-
-		public TestDBContextDataContext(string connection) :
+		
+		public TestDBContextDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-
-		public TestDBContextDataContext(System.Data.IDbConnection connection) :
+		
+		public TestDBContextDataContext(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-
-		public TestDBContextDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
+		
+		public TestDBContextDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-
-		public TestDBContextDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
+		
+		public TestDBContextDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-
+		
 		public System.Data.Linq.Table<Books> Books
 		{
 			get
@@ -81,7 +81,7 @@ namespace Tests
 				return this.GetTable<Books>();
 			}
 		}
-
+		
 		public System.Data.Linq.Table<Suppliers> Suppliers
 		{
 			get
@@ -89,7 +89,7 @@ namespace Tests
 				return this.GetTable<Suppliers>();
 			}
 		}
-
+		
 		public System.Data.Linq.Table<Clients> Clients
 		{
 			get
@@ -97,7 +97,7 @@ namespace Tests
 				return this.GetTable<Clients>();
 			}
 		}
-
+		
 		public System.Data.Linq.Table<Events> Events
 		{
 			get
@@ -105,12 +105,15 @@ namespace Tests
 				return this.GetTable<Events>();
 			}
 		}
-	}
 
-	
-	
-	
-	
+		Table<Data.Books> IDBContextDataContext.Books => throw new NotImplementedException();
+
+		Table<Data.Clients> IDBContextDataContext.Clients => throw new NotImplementedException();
+
+		Table<Data.Events> IDBContextDataContext.Events => throw new NotImplementedException();
+
+		Table<Data.Suppliers> IDBContextDataContext.Suppliers => throw new NotImplementedException();
+	}
 	
 	
 }

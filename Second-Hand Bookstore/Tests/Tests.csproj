@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContextTest.cs" />
+    <Compile Include="TestAddBookWindow.cs" />
     <Compile Include="TestAddClientWindow.cs" />
     <Compile Include="TestDBContext.designer.cs">
       <DependentUpon>TestDBContext.dbml</DependentUpon>
