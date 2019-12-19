@@ -70,7 +70,7 @@ namespace Presentation.ViewModels
             this.GetListOfEvents = new RelayCommand(getListOfEvents);
         }
 
-        private async void RefreshBooks()
+        public async Task RefreshBooks()
         {
             var results = await _userFcd.GetAllBooks();
             this.Books = results.Select(x => new Book

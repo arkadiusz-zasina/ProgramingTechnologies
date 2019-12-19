@@ -8,6 +8,7 @@ using System.Threading;
 using Presentation.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -29,7 +30,7 @@ namespace Tests
 
 
         [TestInitialize]
-        public void InitializeDataContext()
+        public async Task InitializeDataContext()
         {
             db = new TestDBContextDataContext();
             eventSrv = new EventSrv(db);
@@ -43,7 +44,7 @@ namespace Tests
             eventLogsWindow = new TestEventLogsWindow();
             addBookWindow = new TestAddBookWindow();
             mvm = new MainViewModel(userFcd, editClientWindow, editBookWindow, addClientWindow, eventLogsWindow, addBookWindow);
-            
+           await mvm.RefreshBooks();
         }
 
         
@@ -71,10 +72,13 @@ namespace Tests
         }
 
        [TestMethod]
-        public void TestEventsRefresh()
+        public async Task TestEventsRefresh()
         {
-            var previousCount = mvm.Books.ToList().Count();
-            Thread.Sleep(3000);
+            
+            var previousCount = mvm.Books;
+            var x = previousCount.ToList();
+            var y = x.Count();
+
             mvm.BookToBeCreated.Name = "ABC";
             mvm.BookToBeCreated.Author = "abc";
             mvm.BookToBeCreated.Amount = 10;
@@ -82,9 +86,12 @@ namespace Tests
             mvm.BookToBeCreated.Supplier = new Supplier { 
                 nip = "12345", 
                 s_name = "abcd" };
-            mvm.addBook();
 
-            Assert.AreEqual(previousCount + 1, mvm.Books.ToList().Count());
+            await Task.Run(() => mvm.addBook());
+            
+            await mvm.RefreshBooks();
+            
+            Assert.AreEqual(y, mvm.Books.ToList().Count());
 
         }
 
