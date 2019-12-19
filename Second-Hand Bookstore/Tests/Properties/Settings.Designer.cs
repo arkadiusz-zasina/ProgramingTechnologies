@@ -26,7 +26,7 @@ namespace Tests.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=\"83.29.107.71\\SQLEXPRESS, 1433\";Initial Catalog=BookstoreDB;User ID=a" +
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=\"83.29.107.71\\SQLEXPRESS, 1433\";Initial Catalog=BookstoreDB_TEST;User ID=a" +
             "dmin;Password=adminpassword1")]
         public string BookstoreDBConnectionString {
             get {
