@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="BookstoreDB" Class="DBContextDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=2a01:116f:53f:9b00::f551\SQLEXPRESS;Initial Catalog=BookstoreDB;User ID=admin" SettingsObjectName="Data.Properties.Settings" SettingsPropertyName="BookstoreDBConnectionString1" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="BookstoreDB_TEST" Class="TestDBContextDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=83.29.107.71\\SQLEXPRESS,1433;Initial Catalog=BookstoreDB_TEST;User ID=admin" SettingsObjectName="Tests.Properties.Settings" SettingsPropertyName="BookstoreDB_TESTConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Books" Member="Books">
     <Type Name="Books">
       <Column Name="b_name" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
@@ -11,6 +11,7 @@
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Books_Events" Member="Events" ThisKey="id" OtherKey="book_id" Type="Events" />
       <Association Name="Suppliers_Books" Member="Suppliers" ThisKey="supplierID" OtherKey="id" Type="Suppliers" IsForeignKey="true" />
+      <Association Name="Suppliers_Books1" Member="Suppliers1" ThisKey="supplierID" OtherKey="id" Type="Suppliers" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Suppliers" Member="Suppliers">
@@ -19,6 +20,7 @@
       <Column Name="nip" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Association Name="Suppliers_Books" Member="Books" ThisKey="id" OtherKey="supplierID" Type="Books" />
+      <Association Name="Suppliers_Books1" Member="Books1" ThisKey="id" OtherKey="supplierID" Type="Books" />
       <Association Name="Suppliers_Events" Member="Events" ThisKey="id" OtherKey="supplier_id" Type="Events" />
     </Type>
   </Table>
