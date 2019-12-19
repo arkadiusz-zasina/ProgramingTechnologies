@@ -12,7 +12,6 @@ using Data.Services;
 using Logic.Interfaces;
 using Logic.Facades;
 using Presentation.ViewModels;
-using Tests;
 using Data;
 
 namespace Presentation
@@ -38,9 +37,9 @@ namespace Presentation
             kernel.Bind<IEventLogsWindow>().To<EventLogsWindow>();
             kernel.Bind<IAddBookWindow>().To<AddBookWindow>();
 
-            kernel.Bind<IFiller>().To<StaticFiller>();
+            //kernel.Bind<IFiller>().To<StaticFiller>();
 
-            kernel.Bind<DBContextDataContext>().ToSelf();
+            kernel.Bind<IDBContextDataContext>().To<DBContextDataContext>();
 
             var mainViewModel = kernel.Get<MainViewModel>();
 

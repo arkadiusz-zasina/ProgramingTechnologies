@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Data.DataContext;
-using Data.DataModels;
+
 using Data.Interfaces;
 
 namespace Data.Services
 {
     public class SupplierSrv : ISupplierSrv
     {
-        private DBContextDataContext datacontext;
+        private IDBContextDataContext datacontext;
 
-        public SupplierSrv(DBContextDataContext datacontext)
+        public SupplierSrv(IDBContextDataContext datacontext)
         {
             this.datacontext = datacontext;
         }

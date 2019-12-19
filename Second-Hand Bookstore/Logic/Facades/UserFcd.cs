@@ -67,21 +67,6 @@ namespace Logic.Facades
             }));
         }
 
-        public void GenerateShopRaport()
-        {
-            Console.WriteLine("Current shop account balance: " + _eventSrv.GetAccountBalance());
-
-            var numberOfBooks = 0;
-            foreach(var book in _bookSrv.GetBookList())
-            {
-                numberOfBooks += book.amount.Value;
-            }
-
-            Console.WriteLine("Number of titles: " + _bookSrv.GetBookList().Count);
-            Console.WriteLine("Total number of books: " + numberOfBooks);
-            Console.WriteLine("Number of clients: " + _clientSrv.GetClientList().Count);
-            Console.WriteLine("Number of suppliers: " + _supplierSrv.GetSupplierList().Count);
-        }
 
         public async Task<List<Books>> GetAllBooks()
         {
@@ -111,14 +96,6 @@ namespace Logic.Facades
                 id = _eventSrv.GetLastId() + 1,
                 client_id = _clientSrv.GetClient(clientId).id
             }));
-        }
-
-        public void ShowAvailibleBooks()
-        {
-            foreach(var book in _bookSrv.GetBookList())
-            {
-                Console.WriteLine("Title: " + book.b_name + " | Price: " + book.price + " | Amount: " + book.amount);
-            }
         }
 
         public void ShowBooksOfSupplier(string supplierName)

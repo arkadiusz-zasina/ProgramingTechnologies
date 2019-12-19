@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Data.DataContext;
-using Data.DataModels;
 using Data.Interfaces;
 
 namespace Data.Services
 {
     public class EventSrv : IEventSrv
     {
-        private DBContextDataContext datacontext;
+        private IDBContextDataContext datacontext;
 
-        public EventSrv(DBContextDataContext datacontext)
+        public EventSrv(IDBContextDataContext datacontext)
         {
             this.datacontext = datacontext;
         }
