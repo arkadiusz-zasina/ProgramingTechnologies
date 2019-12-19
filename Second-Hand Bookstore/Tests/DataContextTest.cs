@@ -15,7 +15,7 @@ namespace Tests
     [TestClass]
     public class DataContextTest
     {
-        TestDBContextDataContext db;
+        DBContextDataContext db;
         ClientSrv clientSrv;
         BookSrv bookSrv;
         EventSrv eventSrv;
@@ -30,9 +30,10 @@ namespace Tests
 
 
         [TestInitialize]
-        public async Task InitializeDataContext()
+        public void InitializeDataContext()
         {
-            db = new TestDBContextDataContext();
+            db = new DBContextDataContext("Data Source=83.29.107.71\\\\SQLEXPRESS,1433;Initial Catalog=BookstoreDB_TEST;User ID=admin;Password=adminpassword1");
+            //db = new DBContextDataContext();
             eventSrv = new EventSrv(db);
             clientSrv = new ClientSrv(db);
             bookSrv = new BookSrv(db);
@@ -44,7 +45,6 @@ namespace Tests
             eventLogsWindow = new TestEventLogsWindow();
             addBookWindow = new TestAddBookWindow();
             mvm = new MainViewModel(userFcd, editClientWindow, editBookWindow, addClientWindow, eventLogsWindow, addBookWindow);
-           await mvm.RefreshBooks();
         }
 
         
@@ -61,44 +61,8 @@ namespace Tests
             mvm.AccountBalance += 1000;
             Assert.AreEqual(accountBalanceChanged, true);
         }    
-        [TestMethod]
-        public void TestClientAddition()
-        {
-            mvm.ClientToBeCreated.c_name = "John";
-            mvm.ClientToBeCreated.c_surname = "Smith";
-            mvm.addClient();
+               
 
-            Assert.IsNotNull(mvm.ClientToBeCreated);
-        }
-
-       [TestMethod]
-        public async Task TestEventsRefresh()
-        {
-            
-            var previousCount = mvm.Books;
-            var x = previousCount.ToList();
-            var y = x.Count();
-
-            mvm.BookToBeCreated.Name = "ABC";
-            mvm.BookToBeCreated.Author = "abc";
-            mvm.BookToBeCreated.Amount = 10;
-            mvm.BookToBeCreated.isNew = false;
-            mvm.BookToBeCreated.Supplier = new Supplier { 
-                nip = "12345", 
-                s_name = "abcd" };
-
-            await Task.Run(() => mvm.addBook());
-            
-            await mvm.RefreshBooks();
-            
-            Assert.AreEqual(y, mvm.Books.ToList().Count());
-
-        }
-
-       
-       
-        
-/*
         [TestMethod]
         public void ClientsAddedAndDeletedTest()
         {
@@ -113,7 +77,8 @@ namespace Tests
             Assert.AreEqual(clientSrv.GetClientList().Count - amountOfClientsAtTheBeggining, 1);
 
             int currentAmount = clientSrv.GetClientList().Count;
-            clientSrv.DeleteClient(1);
+            var toDelete = clientSrv.GetClientList().Where(x => x.c_name == "John" && x.c_surname == "Smith").SingleOrDefault();
+            clientSrv.DeleteClient(toDelete.id);
 
             Assert.AreEqual(currentAmount - clientSrv.GetClientList().Count, 1);
         }
@@ -122,17 +87,17 @@ namespace Tests
         public void SuppliersAddedAndDeletedTest()
         {
             int amountOfSuppliersAtTheBeggining = supplierSrv.GetSupplierList().Count;
-            supplierSrv.CreateSupplier(new tSupplier
+            supplierSrv.CreateSupplier(new Suppliers
             {
-                Id = 20,
-                Name = "Green Owl",
-                NIP = "1234567890"
+                s_name = "Green Owl",
+                nip = "1234567890"
             });
 
             Assert.AreEqual(supplierSrv.GetSupplierList().Count - amountOfSuppliersAtTheBeggining, 1);
 
             int currentAmount = supplierSrv.GetSupplierList().Count;
-            supplierSrv.DeleteSupplier(20);
+            var toDelete = supplierSrv.GetSupplierList().Where(x => x.s_name == "Green Owl").SingleOrDefault();
+            supplierSrv.DeleteSupplier(toDelete.id);
 
             Assert.AreEqual(currentAmount - supplierSrv.GetSupplierList().Count, 1);
 
@@ -141,80 +106,64 @@ namespace Tests
         [TestMethod]
         public void BooksBoughtAndSoldTest()
         {
-            tSupplier testSupplier = new tSupplier
-            {
-                Id = 2,
-                Name = "Nowa Era",
-                NIP = "12345678"
-            };
+ 
 
             int countbefore = bookSrv.GetBookList().Count;
 
-            bookSrv.CreateBook(new tBook
+            bookSrv.CreateBook(new Books
             {
-                Amount = 33,
-                Author = "Stephen King",
-                Id = 4,
+                amount = 33,
+                b_author = "Stephen King",
                 isNew = false,
-                Name = "The Shining",
-                Price = 20.00f,
-                Supplier = testSupplier
+                b_name = "The Shining",
+                price = 20.00f,
+                supplierID = 1
             });
 
             Assert.AreEqual(bookSrv.GetBookList().Count - countbefore, 1);
 
+            var toDelete = bookSrv.GetBookList().Where(x => x.b_name == "The Shining").SingleOrDefault();
+
+            bookSrv.UpdateBook(new Books
+            {
+                amount = 33,
+                b_author = "Stephen King",
+                isNew = false,
+                id = toDelete.id,
+                b_name = "The Shining",
+                price = 24.00f,
+                supplierID = 1
+            });
+
+            Assert.AreEqual(24.00f, bookSrv.GetBook(4).price);
+
             int count = bookSrv.GetBookList().Count;
-            bookSrv.DeleteBook(2);
+            bookSrv.DeleteBook(toDelete.id);
 
             Assert.AreEqual(count - bookSrv.GetBookList().Count, 1);
 
-            bookSrv.UpdateBook(new tBook
-            {
-                Amount = 33,
-                Author = "Stephen King",
-                Id = 4,
-                isNew = false,
-                Name = "The Shining",
-                Price = 24.00f,
-                Supplier = testSupplier
-            });
-
-            Assert.AreEqual(24.00f, bookSrv.GetBook(4).Price);
-
         }
         [TestMethod]
-        public void TestOfFacade()
+        public async Task TestOfFacade()
         {
-            tSupplier supplier = new tSupplier
+            Books book = new Books
             {
-                Id = 10,
-                Name = "New Delivery Company",
-                NIP = "18234323"
-            };
-            tBook book = new tBook
-            {
-                Id = 20,
-                Name = "Tożsamość Bourne'a",
-                Author = "Robert Ludlum",
-                Amount = 50,
+                b_name = "Tożsamość Bourne'a",
+                b_author = "Robert Ludlum",
+                amount = 2,
                 isNew = true,
-                Price = 30.99f,
-                Supplier = supplier
+                price = 30.99f,
+                supplierID = 1
             };
 
             int titlesBeforePurchase = bookSrv.GetBookList().Count;
             float accountBalanceBeforePurchase = eventSrv.GetAccountBalance();
-            userFcd.BuyBook(book);
+            await userFcd.BuyBook(book);
             Assert.AreEqual(bookSrv.GetBookList().Count - titlesBeforePurchase, 1);
-            Assert.AreEqual(accountBalanceBeforePurchase - eventSrv.GetAccountBalance() , book.Price * book.Amount);
+            Assert.AreEqual(accountBalanceBeforePurchase - eventSrv.GetAccountBalance() , (float)(book.price * book.amount), delta: 0.01f);
 
-            int AmountOfBooksPurchase = bookSrv.GetBook(0).Amount;
-            float accountBalanceBeforeSelling = eventSrv.GetAccountBalance();
-            userFcd.SellBook(0, 0);
-            Assert.AreEqual(AmountOfBooksPurchase - bookSrv.GetBook(0).Amount, 1);
-            Assert.AreEqual(eventSrv.GetAccountBalance() - accountBalanceBeforeSelling, bookSrv.GetBook(0).Price, 0.01);
         }
-        */
+        
         
     }
     

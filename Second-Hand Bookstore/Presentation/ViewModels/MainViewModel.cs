@@ -38,22 +38,22 @@ namespace Presentation.ViewModels
 
             clientToBeCreated = new Client { c_name = "", c_surname = "" };
             bookToBeCreated = new Book { Amount = 1, Author = "", isNew = true, Name = "", Price = 0, Supplier = null };
+            books = new List<Book>();
+            clients = new List<Client>();
+            events = new List<Event>();
+            suppliers = new List<Supplier>();
 
-            this.RefreshBooks();
+            RefreshBooks();
             this.searchClients("");
             this.OpenAddClient = new RelayCommand(openAddClient);
             this.OpenAddBook = new RelayCommand(openAddBook);
             this.OpenLogs = new RelayCommand(openLogs);
             this.OpenEdit = new RelayCommand(openEdit, () => (CurrentBook != null && isLastClickedBook) || (CurrentClient != null && !isLastClickedBook));
-            this.GetAccountBalance();
-            this.RegisterClient = new RelayCommand(registerClient, () => clientToBeCreated.c_name.Any() && clientToBeCreated.c_surname.Any());        
+            this.GetAccountBalance();     
             this.SellBook = new RelayCommand(sellBook, 
                 () => CurrentClient != null 
                 && CurrentBook != null 
                 && CurrentBook.Amount > 0) ;
-            this.RegisterClient = new RelayCommand(registerClient, 
-                () => clientToBeCreated.c_name.Length > 0 
-                && clientToBeCreated.c_surname.Length > 0);
             this.AddBook = new RelayCommand(addBook);          
             this.EditBook = new RelayCommand(editBook, 
                 () => currentBook != null
@@ -70,7 +70,7 @@ namespace Presentation.ViewModels
             this.GetListOfEvents = new RelayCommand(getListOfEvents);
         }
 
-        public async Task RefreshBooks()
+        public async void RefreshBooks()
         {
             var results = await _userFcd.GetAllBooks();
             this.Books = results.Select(x => new Book
@@ -298,18 +298,6 @@ namespace Presentation.ViewModels
         }
 
         public RelayCommand SellBook { get; set; }
-
-        public async void registerClient()
-        {
-            await _userFcd.RegisterClient(new Data.Clients
-            {
-                c_name = clientToBeCreated.c_name,
-                c_surname = clientToBeCreated.c_surname,
-                creation_date = clientToBeCreated.creationDate
-            });
-        }
-
-        public RelayCommand RegisterClient { get; set; }
 
         public async void addBook()
         {

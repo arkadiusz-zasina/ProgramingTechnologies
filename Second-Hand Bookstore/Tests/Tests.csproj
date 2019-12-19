@@ -64,11 +64,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="TestDBContext.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestDBContext.dbml</DependentUpon>
-    </Compile>
     <Compile Include="TestEditBookWindow.cs" />
     <Compile Include="TestEditClientWindow.cs" />
     <Compile Include="TestEventLogsWindow.cs" />
@@ -79,14 +74,6 @@
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="TestDBContext.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>TestDBContext.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="TestDBContext.dbml.layout">
-      <DependentUpon>TestDBContext.dbml</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>

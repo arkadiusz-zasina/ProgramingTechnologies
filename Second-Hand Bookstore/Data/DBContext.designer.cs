@@ -127,9 +127,9 @@ namespace Data
 		
 		private int _id;
 		
-		private EntitySet<Events> _Events;
+		private EntitySet<Events> _Events = new EntitySet<Events>();
 		
-		private EntityRef<Suppliers> _Suppliers;
+		private EntityRef<Suppliers> _Suppliers = new EntityRef<Suppliers>();
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -394,9 +394,9 @@ namespace Data
 		
 		private int _id;
 		
-		private EntitySet<Books> _Books;
+		private EntitySet<Books> _Books = new EntitySet<Books>();
 		
-		private EntitySet<Events> _Events;
+		private EntitySet<Events> _Events = new EntitySet<Events>();
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -562,7 +562,7 @@ namespace Data
 		
 		private int _id;
 		
-		private EntitySet<Events> _Events;
+		private EntitySet<Events> _Events = new EntitySet<Events>();
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -728,11 +728,11 @@ namespace Data
 		
 		private int _id;
 		
-		private EntityRef<Books> _Books;
+		private EntityRef<Books> _Books = new EntityRef<Books>();
 		
-		private EntityRef<Clients> _Clients;
+		private EntityRef<Clients> _Clients = new EntityRef<Clients>();
 		
-		private EntityRef<Suppliers> _Suppliers;
+		private EntityRef<Suppliers> _Suppliers = new EntityRef<Suppliers>();
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();

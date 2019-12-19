@@ -18,7 +18,7 @@ namespace Data.Services
 
         public float GetAccountBalance()
         {
-            return (float)datacontext.Events.OrderByDescending(x => x.id).First().account_balance;
+            return (float)datacontext.Events.OrderByDescending(x => x.id).FirstOrDefault().account_balance.Value;
         }
 
         public int GetLastId()
