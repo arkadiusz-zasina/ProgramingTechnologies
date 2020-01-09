@@ -13,9 +13,12 @@ namespace Logic.Interfaces
         Task BuyBook(Books book);
         void ShowBooksOfSupplier(string supplierName);
         Task<List<Books>> GetAllBooks();
+        List<Books> GetAllBooksSync();
+        List<Clients> GetAllClientsSync();
         Task<IEnumerable<Books>> GetBooksByString(string seraching);
         Task<IEnumerable<Clients>> GetClientsByString(string searching);
         Task<float> GetAccountBalance();
+        float GetAccountBalanceSync();
         Task RegisterClient(Clients client);
         Task AddBook(Books book);
         Task<Boolean> isSupplierAvailable(int id);

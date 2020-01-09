@@ -73,6 +73,16 @@ namespace Logic.Facades
             return await Task.Run(() => _bookSrv.GetBookList());
         }
 
+        public List<Books> GetAllBooksSync()
+        {
+            return _bookSrv.GetBookList();
+        }
+
+        public List<Clients> GetAllClientsSync()
+        {
+            return _clientSrv.GetClientList();
+        }
+
         public async Task SellBook(int bookId, int clientId)
         {
             var book = _bookSrv.GetBook(bookId);
@@ -106,6 +116,9 @@ namespace Logic.Facades
 
         public async Task<float> GetAccountBalance()
             => await Task.Run(() => _eventSrv.GetAccountBalance());
+
+        public float GetAccountBalanceSync()
+            => _eventSrv.GetAccountBalance();
 
 
         public async Task RegisterClient(Clients client)

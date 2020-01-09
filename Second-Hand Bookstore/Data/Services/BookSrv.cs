@@ -23,6 +23,7 @@ namespace Data.Services
 
         public void DeleteBook(int id)
         {
+            datacontext.Events.DeleteAllOnSubmit(datacontext.Events.Where(x => x.book_id == id).ToList());
             datacontext.Books.DeleteOnSubmit(datacontext.Books.Where(i => i.id == id).Single());
             datacontext.SubmitChanges();
         }

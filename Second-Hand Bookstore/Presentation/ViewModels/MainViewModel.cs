@@ -43,13 +43,13 @@ namespace Presentation.ViewModels
             events = new List<Event>();
             suppliers = new List<Supplier>();
 
-            RefreshBooks();
-            this.searchClients("");
+            RefreshClientsSync();
+            RefreshBooksSync();
             this.OpenAddClient = new RelayCommand(openAddClient);
             this.OpenAddBook = new RelayCommand(openAddBook);
             this.OpenLogs = new RelayCommand(openLogs);
             this.OpenEdit = new RelayCommand(openEdit, () => (CurrentBook != null && isLastClickedBook) || (CurrentClient != null && !isLastClickedBook));
-            this.GetAccountBalance();     
+            this.GetAccountBalanceSync();     
             this.SellBook = new RelayCommand(sellBook, 
                 () => CurrentClient != null 
                 && CurrentBook != null 
@@ -62,6 +62,7 @@ namespace Presentation.ViewModels
                 && currentBook.Amount > 0
                 && currentBook.Price > 0
                 && currentBook.Supplier != null );
+            this.DeleteBook = new RelayCommand(deleteBook, () => currentBook != null);
             this.EditClient = new RelayCommand(editClient,
                 () => currentClient != null
                 && currentClient.c_name.Length > 0
@@ -70,7 +71,8 @@ namespace Presentation.ViewModels
             this.GetListOfEvents = new RelayCommand(getListOfEvents);
         }
 
-        public async void RefreshBooks()
+
+        public async Task RefreshBooks()
         {
             var results = await _userFcd.GetAllBooks();
             this.Books = results.Select(x => new Book
@@ -82,6 +84,33 @@ namespace Presentation.ViewModels
                 Name = x.b_name,
                 Price = (float)x.price,
                 Supplier = new Supplier { id = x.Suppliers.id, nip = x.Suppliers.nip, s_name = x.Suppliers.s_name }
+            });
+        }
+
+        public void RefreshBooksSync()
+        {
+            var results = _userFcd.GetAllBooksSync();
+            this.Books = results.Select(x => new Book
+            {
+                Amount = x.amount.Value,
+                Author = x.b_author,
+                Id = x.id,
+                isNew = x.isNew.Value,
+                Name = x.b_name,
+                Price = (float)x.price,
+                Supplier = new Supplier { id = x.Suppliers.id, nip = x.Suppliers.nip, s_name = x.Suppliers.s_name }
+            });
+        }
+
+        public void RefreshClientsSync()
+        {
+            var results = _userFcd.GetAllClientsSync();
+            this.Clients = results.Select(x => new Client
+            {
+                id = x.id,
+                c_name = x.c_name,
+                c_surname = x.c_surname,
+                creationDate = (DateTime)x.creation_date
             });
         }
 
@@ -201,6 +230,7 @@ namespace Presentation.ViewModels
                 this.SellBook.RaiseCanExecuteChanged();
                 this.EditBook.RaiseCanExecuteChanged();
                 this.OpenEdit.RaiseCanExecuteChanged();
+                this.DeleteBook.RaiseCanExecuteChanged();
                 isLastClickedBook = true;
             }
         }
@@ -284,6 +314,11 @@ namespace Presentation.ViewModels
             this.AccountBalance = await _userFcd.GetAccountBalance();
         }
 
+        public void GetAccountBalanceSync()
+        {
+            this.AccountBalance = _userFcd.GetAccountBalanceSync();
+        }
+
         public async void sellBook()
         {
             int bookId = currentBook.Id;
@@ -294,10 +329,17 @@ namespace Presentation.ViewModels
             else
                 RefreshBooks();
             GetAccountBalance();
-            MessageBox.Show("Book sold successfully.", "Book sold", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public RelayCommand SellBook { get; set; }
+
+        public async void deleteBook()
+        {
+            await _userFcd.DeleteBook(currentBook.Id);
+            RefreshBooks();
+        }
+
+        public RelayCommand DeleteBook { get; set; }
 
         public async void addBook()
         {
@@ -316,7 +358,6 @@ namespace Presentation.ViewModels
             else
                 searchBooks(SearchStringBook);
             GetAccountBalance();
-            MessageBox.Show("Books bought successfully.", "Book bought", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public RelayCommand AddBook { get; set; }

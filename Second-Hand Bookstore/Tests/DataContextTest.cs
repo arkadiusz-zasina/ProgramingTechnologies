@@ -45,126 +45,167 @@ namespace Tests
             eventLogsWindow = new TestEventLogsWindow();
             addBookWindow = new TestAddBookWindow();
             mvm = new MainViewModel(userFcd, editClientWindow, editBookWindow, addClientWindow, eventLogsWindow, addBookWindow);
-        }
-
-        
-        [TestMethod] 
-        public void TestAccountBalanceChange()
-        {
-            bool accountBalanceChanged = false;
-            mvm.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == "AccountBalance")
-                    accountBalanceChanged = true;
-            };
-
-            mvm.AccountBalance += 1000;
-            Assert.AreEqual(accountBalanceChanged, true);
-        }    
-               
-
-        [TestMethod]
-        public void ClientsAddedAndDeletedTest()
-        {
-            
-            int amountOfClientsAtTheBeggining = clientSrv.GetClientList().Count;
-            clientSrv.CreateClient(new Clients
-            {
-                c_name = "John",
-                c_surname = "Smith"
-            });
-
-            Assert.AreEqual(clientSrv.GetClientList().Count - amountOfClientsAtTheBeggining, 1);
-
-            int currentAmount = clientSrv.GetClientList().Count;
-            var toDelete = clientSrv.GetClientList().Where(x => x.c_name == "John" && x.c_surname == "Smith").SingleOrDefault();
-            clientSrv.DeleteClient(toDelete.id);
-
-            Assert.AreEqual(currentAmount - clientSrv.GetClientList().Count, 1);
-        }
-
-        [TestMethod]
-        public void SuppliersAddedAndDeletedTest()
-        {
-            int amountOfSuppliersAtTheBeggining = supplierSrv.GetSupplierList().Count;
-            supplierSrv.CreateSupplier(new Suppliers
-            {
-                s_name = "Green Owl",
-                nip = "1234567890"
-            });
-
-            Assert.AreEqual(supplierSrv.GetSupplierList().Count - amountOfSuppliersAtTheBeggining, 1);
-
-            int currentAmount = supplierSrv.GetSupplierList().Count;
-            var toDelete = supplierSrv.GetSupplierList().Where(x => x.s_name == "Green Owl").SingleOrDefault();
-            supplierSrv.DeleteSupplier(toDelete.id);
-
-            Assert.AreEqual(currentAmount - supplierSrv.GetSupplierList().Count, 1);
 
         }
 
+
         [TestMethod]
-        public void BooksBoughtAndSoldTest()
+        public void RelayCommandTesting()
         {
- 
-
-            int countbefore = bookSrv.GetBookList().Count;
-
-            bookSrv.CreateBook(new Books
-            {
-                amount = 33,
-                b_author = "Stephen King",
-                isNew = false,
-                b_name = "The Shining",
-                price = 20.00f,
-                supplierID = 1
-            });
-
-            Assert.AreEqual(bookSrv.GetBookList().Count - countbefore, 1);
-
-            var toDelete = bookSrv.GetBookList().Where(x => x.b_name == "The Shining").SingleOrDefault();
-
-            bookSrv.UpdateBook(new Books
-            {
-                amount = 33,
-                b_author = "Stephen King",
-                isNew = false,
-                id = toDelete.id,
-                b_name = "The Shining",
-                price = 24.00f,
-                supplierID = 1
-            });
-
-            Assert.AreEqual(24.00f, bookSrv.GetBook(4).price);
-
-            int count = bookSrv.GetBookList().Count;
-            bookSrv.DeleteBook(toDelete.id);
-
-            Assert.AreEqual(count - bookSrv.GetBookList().Count, 1);
-
+            int executeCount = 0;
+            RelayCommand testCommand = new RelayCommand(() => executeCount++);
+            Assert.IsTrue(testCommand.CanExecute(null));
+            testCommand.Execute(null);
+            Assert.AreEqual(1, executeCount);
         }
+
         [TestMethod]
-        public async Task TestOfFacade()
+        public void addBookCommandTest()
         {
-            Books book = new Books
+            mvm.BookToBeCreated = new Book
             {
-                b_name = "Tożsamość Bourne'a",
-                b_author = "Robert Ludlum",
-                amount = 2,
+                Amount = 20,
+                Author = "11111",
+                Name = "temporaryBook",
                 isNew = true,
-                price = 30.99f,
-                supplierID = 1
+                Price = 50,
+                 Supplier = new Supplier
+                 {
+                     id = 1,
+                     nip = "2345",
+                     s_name = "fdjrfj"
+                 }
+                
+            };
+            Assert.IsTrue(mvm.AddBook.CanExecute(null));
+            
+            int count = mvm.Books.ToList().Count;
+            Assert.IsTrue(mvm.AddBook.CanExecute(null));
+            mvm.AddBook.Execute(null);
+            Thread.Sleep(3000);
+            mvm.RefreshBooksSync();
+            Assert.AreEqual(count + 1, mvm.Books.ToList().Count);
+
+            db.Books.DeleteAllOnSubmit(db.Books.Where(x => x.b_name == "temporaryBook"));
+            Thread.Sleep(3000);
+        }
+
+        [TestMethod]
+        public void addClientCommandTest()
+        {
+            mvm.ClientToBeCreated = new Client
+            {
+                c_name = "temporaryClient",
+                c_surname = "temporaryClient",
+                creationDate = DateTime.Now
+            };
+            Assert.IsTrue(mvm.AddClient.CanExecute(null));
+
+            int count = mvm.Clients.ToList().Count;
+            Assert.IsTrue(mvm.AddClient.CanExecute(null));
+            mvm.AddClient.Execute(null);
+            Thread.Sleep(3000);
+            mvm.RefreshClientsSync();
+            Assert.AreEqual(count + 1, mvm.Clients.ToList().Count);
+
+            db.Clients.DeleteAllOnSubmit(db.Clients.Where(x => x.c_name == "temporaryClient"));
+            Thread.Sleep(3000);
+        }
+
+
+        [TestMethod]
+        public void deleteBookCommandTest()
+        {
+            mvm.CurrentBook = new Book
+            {
+                Amount = 20,
+                Author = "11111",
+                Name = "temporaryBook",
+                isNew = true,
+                Price = 50,
+                Supplier = new Supplier
+                {
+                    id = 1,
+                    nip = "2345",
+                    s_name = "fdjrfj"
+                }
+            };
+            mvm.AddBook.Execute(null);
+            Thread.Sleep(3000);
+            mvm.RefreshBooksSync();
+            int count = mvm.Books.ToList().Count;
+            int idToDelete = mvm.Books.FirstOrDefault(x => x.Name == "temporaryBook").Id;
+            mvm.CurrentBook.Id = idToDelete;
+            Assert.IsTrue(mvm.DeleteBook.CanExecute(null));
+            mvm.DeleteBook.Execute(null);
+            Thread.Sleep(3000);
+            mvm.RefreshBooksSync();
+            Assert.AreEqual(count - 1, mvm.Books.ToList().Count);
+        }
+
+
+        [TestMethod]
+
+        public void UpdateBookCommandTest()
+        {
+            mvm.BookToBeCreated = new Book
+            {
+                Amount = 20,
+                Author = "11111",
+                Name = "temporaryBook",
+                isNew = true,
+                Price = 50,
+                Supplier = new Supplier
+                {
+                    id = 1,
+                    nip = "2345",
+                    s_name = "fdjrfj"
+                }
             };
 
-            int titlesBeforePurchase = bookSrv.GetBookList().Count;
-            float accountBalanceBeforePurchase = eventSrv.GetAccountBalance();
-            await userFcd.BuyBook(book);
-            Assert.AreEqual(bookSrv.GetBookList().Count - titlesBeforePurchase, 1);
-            Assert.AreEqual(accountBalanceBeforePurchase - eventSrv.GetAccountBalance() , (float)(book.price * book.amount), delta: 0.01f);
+            mvm.AddBook.Execute(null);
+            Thread.Sleep(3000);
+            mvm.RefreshBooksSync();
+            int idToUpdateBook = mvm.Books.FirstOrDefault(x => x.Name == "temporaryBook").Id;
+            string title = mvm.Books.FirstOrDefault(x => x.Id == idToUpdateBook).Name;
+            mvm.CurrentBook = mvm.Books.FirstOrDefault(x => x.Id == idToUpdateBook);
+            mvm.CurrentBook.Name = "temporaryBook1";
+            Assert.IsTrue(mvm.EditBook.CanExecute(null));
+            mvm.EditBook.Execute(null);
+            Thread.Sleep(3000);
+            string title1 = mvm.Books.FirstOrDefault(x => x.Id == idToUpdateBook).Name;
 
+            Assert.AreNotEqual(title, title1);
+            db.Books.DeleteAllOnSubmit(db.Books.Where(x => x.b_name == "temporaryBook1"));
         }
-        
-        
+
+        [TestMethod]
+
+        public void UpdateClientCommandTest()
+        {
+            mvm.ClientToBeCreated = new Client
+            {
+                c_name = "temporaryClient",
+                c_surname = "temporaryClient",
+                creationDate = DateTime.Now
+            };
+
+            mvm.AddClient.Execute(null);
+            Thread.Sleep(3000);
+            mvm.RefreshClientsSync();
+            int idToUpdateClient = mvm.Clients.FirstOrDefault(x => x.c_name == "temporaryClient").id;
+            string name = mvm.Clients.FirstOrDefault(x => x.id == idToUpdateClient).c_name;
+            mvm.CurrentClient = mvm.Clients.FirstOrDefault(x => x.id == idToUpdateClient);
+            mvm.CurrentClient.c_name = "temporaryClient1";
+            Assert.IsTrue(mvm.EditClient.CanExecute(null));
+            mvm.EditClient.Execute(null);
+            Thread.Sleep(3000);
+            mvm.RefreshClientsSync();
+            string name1 = mvm.Clients.FirstOrDefault(x => x.id == idToUpdateClient).c_name;
+
+            Assert.AreNotEqual(name, name1);
+            db.Clients.DeleteAllOnSubmit(db.Clients.Where(x => x.c_name == "temporaryClient1"));
+        }
     }
     
 }
