@@ -32,7 +32,7 @@ namespace Tests
         [TestInitialize]
         public void InitializeDataContext()
         {
-            db = new DBContextDataContext("Data Source=83.29.107.71\\\\SQLEXPRESS,1433;Initial Catalog=BookstoreDB_TEST;User ID=admin;Password=adminpassword1");
+            db = new DBContextDataContext("Data Source=83.29.16.132\\\\SQLEXPRESS,1433;Initial Catalog=BookstoreDB_TEST;User ID=admin;Password=adminpassword1");
             //db = new DBContextDataContext();
             eventSrv = new EventSrv(db);
             clientSrv = new ClientSrv(db);
